@@ -14,7 +14,7 @@ async function buscarRecolhimentoLD(busca){
     }
     console.log('busca?depois> ', busca)
     
-        dados = await axios.get(`http://localhost:5412/LD/Recolhimentos/api/recolhimento/${busca}`)
+        dados = await axios.get(`http://${host}/LD/Recolhimentos/api/recolhimento/${busca}`)
         .then(response => {
            
             return response.data
@@ -43,7 +43,7 @@ async function buscarIDitemRecolhimentoLD(busca){
     }
     console.log('busca?depois> ', busca)
     
-        dados = await axios.get(`http://localhost:5412/LD/Recolhimentos/api/ItemRecolhimento/${busca}`)
+        dados = await axios.get(`http://${host}/LD/Recolhimentos/api/ItemRecolhimento/${busca}`)
         .then(response => {
            
             return response.data
@@ -72,7 +72,7 @@ async function buscarDadosItemRecolhimentoLD(busca){
     }
     console.log('busca?depois> ', busca)
     
-        dados = await axios.get(`http://localhost:5412/LD/Recolhimentos/api/DadosItemRecolhimento/${busca}`)
+        dados = await axios.get(`http://${host}/LD/Recolhimentos/api/DadosItemRecolhimento/${busca}`)
         .then(response => {
            
             return response.data
@@ -87,7 +87,7 @@ async function buscarDadosItemRecolhimentoLD(busca){
 
 
 async function verificaItensRecolhidos(busca){
-    dados = await axios.get(`http://localhost:5412/LD/Recolhimentos/api/ItemRecolhimento/buscaAutoIncRecolhimento/${busca}`)
+    dados = await axios.get(`http://${host}/LD/Recolhimentos/api/ItemRecolhimento/buscaAutoIncRecolhimento/${busca}`)
     .then(response => {
        
         return response.data
@@ -121,7 +121,7 @@ async function buscarOCLD(busca){
     }
     console.log('busca?depois> ', busca)
     
-        dados = await axios.get(`http://localhost:5412/LD/Recolhimentos/api/oc/${busca}`)
+        dados = await axios.get(`http://${host}/LD/Recolhimentos/api/oc/${busca}`)
         .then(response => {
            
             return response.data
@@ -239,7 +239,7 @@ function reselecao(id){
                 let retorno = await buscarDadosItemRecolhimentoLD(itens[i].id)
                 let dados = retorno[0]
                 recolhimento = dados.recolhimento
-                await axios.post(`http://localhost:5412/LD/Recolhimentos/Incluir`,dados)
+                await axios.post(`http://${host}/LD/Recolhimentos/Incluir`,dados)
                                         .then(response => {
                                             if(response.data){
                                                 divMsg.innerText='Incluido com sucesso. '
@@ -261,7 +261,7 @@ function reselecao(id){
 }
 
 async function verificarItemCadastrado(id){
-    let autoinc = await axios.get(`http://localhost:5412/LD/Recolhimentos/api/ItemRecolhimento/Verifica/${id}`)
+    let autoinc = await axios.get(`http://${host}/LD/Recolhimentos/api/ItemRecolhimento/Verifica/${id}`)
                                     .then(response => {
                                     
                                         return response.data
@@ -312,7 +312,7 @@ gravar.addEventListener('click',async(event)=>{
     if(descricao != '' && descricao != undefined ){
 
                 //document.getElementById('formRecolhimento').submit()
-                retorno = await axios.post(`http://localhost:5412/LD/Recolhimento/Incluir`,{descricao})
+                retorno = await axios.post(`http://${host}/LD/Recolhimento/Incluir`,{descricao})
                 console.log('retorno: ', retorno.data)
                 if(retorno.data!='Duplicado'){
                     M.toast({html: `<span class='blue red-4' >Registro ${retorno.data[0]} incluído com sucesso</span>`, classes: 'rounded'});
@@ -366,7 +366,7 @@ function limparFormulario(){
 }
 
 async function deletarRecolhimento(id, recolhimento){
-    let retorno = await axios.delete(`http://localhost:5412/LD/Recolhimento/Delete/${id}`)
+    let retorno = await axios.delete(`http://${host}/LD/Recolhimento/Delete/${id}`)
     .then(response => response.data)
     .catch((error) => {
       throw error.response.data
@@ -393,7 +393,7 @@ async function alteracaoRecolhimento(){
         descricao: descricao
     }
     console.log('alteração Recolhimento: ', descricao)
-     let retorno = await axios.post(`http://localhost:5412/LD/Recolhimento/Alterar`, recolhimento)
+     let retorno = await axios.post(`http://${host}/LD/Recolhimento/Alterar`, recolhimento)
      .then(response => response.data)
     .catch((error) => {
       throw error.response.data

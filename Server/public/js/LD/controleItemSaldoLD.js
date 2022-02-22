@@ -12,7 +12,7 @@ async function buscarIDitemSaldoLD(busca){
     }
 
 
-        dados = await axios.get(`http://localhost:5412/LD/Saldo/api/Itens/${busca}`)
+        dados = await axios.get(`http://${host}/LD/Saldo/api/Itens/${busca}`)
         .then(response => {
            
             return response.data
@@ -36,7 +36,7 @@ async function buscarSaldoItem(cod_analitico, status){
          }
      }
  
-    dados = await axios.get(`http://localhost:5412/LD/Saldo/api/ItemSaldo/${cod_analitico}&${status}`)
+    dados = await axios.get(`http://${host}/LD/Saldo/api/ItemSaldo/${cod_analitico}&${status}`)
     .then(response => {
 
         return response.data
@@ -63,14 +63,6 @@ async function preencherTabelaItensRecolhidos(busca){
 
         for (let index = 0; index < itensSaldo.length; index++) {
             const item = itensSaldo[index];
-            
-      
-
-            // let coraguardo      = 'grey-text text-lighten-2'
-            // let corestoque      = 'grey-text text-lighten-2'
-            // let corconcertando  = 'grey-text text-lighten-2'
-            // let cordescarte     = 'grey-text text-lighten-2'
-
 
             let saldoAguardando  
             let saldoConcertando 
@@ -107,26 +99,7 @@ async function preencherTabelaItensRecolhidos(busca){
             if(!saldoItemTotal[0].saldo){
                 saldoItemTotal[0].saldo   = 0
             }
-                
-
-
-
-            // if(item.status == 1){
-            //             coraguardo      = 'yellow-text text-lighten-3'
-            //         }
-            //         if(item.status == 2){
-            //             corconcertando  = 'green-text text-accent-3'
-            //         }
-            //         if(item.status == 3){
-            //             corestoque      = 'brown-text text-lighten-2'
-                        
-            //         }
-            //         if(item.status == 4){
-            //             cordescarte      = 'orange-text  text-darken-1'
-                        
-            //         }
-
-                   
+                                 
                     const tr = document.createElement(`tr`)
                     tr.setAttribute('id',item.pedido)
                     tr.innerHTML = `

@@ -14,7 +14,7 @@ async function buscarRecolhimentoLD(busca){
         }
     }
     
-        dados = await axios.get(`http://localhost:5412/LD/Recolhimentos/api/recolhimento/${busca}`)
+        dados = await axios.get(`http://${host}/LD/Recolhimentos/api/recolhimento/${busca}`)
         .then(response => {
            
             return response.data
@@ -64,7 +64,7 @@ async function buscarIDitemRecolhimentoLD(busca, codProduto){
 
     console.log('status: ', status)
 
-        dados = await axios.get(`http://localhost:5412/LD/Recolhimentos/api/ItemRecolhimento/${busca}&${codProduto}&${status}`)
+        dados = await axios.get(`http://${host}/LD/Recolhimentos/api/ItemRecolhimento/${busca}&${codProduto}&${status}`)
         .then(response => {
            
             return response.data
@@ -93,7 +93,7 @@ async function buscarDadosItemRecolhimentoLD(busca){
     }
 
     
-        dados = await axios.get(`http://localhost:5412/LD/Recolhimentos/api/DadosItemRecolhimento/${busca}`)
+        dados = await axios.get(`http://${host}/LD/Recolhimentos/api/DadosItemRecolhimento/${busca}`)
         .then(response => {
            
             return response.data
@@ -108,7 +108,7 @@ async function buscarDadosItemRecolhimentoLD(busca){
 
 
 async function verificaItensRecolhidos(busca){
-    dados = await axios.get(`http://localhost:5412/LD/Recolhimentos/api/ItemRecolhimento/buscaAutoIncRecolhimento/${busca}`)
+    dados = await axios.get(`http://${host}/LD/Recolhimentos/api/ItemRecolhimento/buscaAutoIncRecolhimento/${busca}`)
     .then(response => {
        
         return response.data
@@ -142,7 +142,7 @@ async function buscarOCLD(busca){
     }
     console.log('busca?depois> ', busca)
     
-        dados = await axios.get(`http://localhost:5412/LD/Recolhimentos/api/oc/${busca}`)
+        dados = await axios.get(`http://${host}/LD/Recolhimentos/api/oc/${busca}`)
         .then(response => {
            
             return response.data
@@ -276,7 +276,7 @@ function esconderInfoCli(id){
 async function setarStatus(autoinc, novostatus, e){
 
 
-     let retorno = await axios.get(`http://localhost:5412/LD/Recolhimento/api/Alterar/Status/${autoinc}&${novostatus}`)
+     let retorno = await axios.get(`http://${host}/LD/Recolhimento/api/Alterar/Status/${autoinc}&${novostatus}`)
      .then(response => response.data)
     .catch((error) => {
       throw error.response.data
@@ -341,7 +341,7 @@ function reselecao(id){
                 let retorno = await buscarDadosItemRecolhimentoLD(itens[i].id)
                 let dados = retorno[0]
                 recolhimento = dados.recolhimento
-                await axios.post(`http://localhost:5412/LD/Recolhimentos/Incluir`,dados)
+                await axios.post(`http://${host}/LD/Recolhimentos/Incluir`,dados)
                                         .then(response => {
                                             if(response.data){
                                                 divMsg.innerText='Incluido com sucesso. '
@@ -359,12 +359,12 @@ function reselecao(id){
         M.toast({html: `<span class='blue red-dark-4' >Nenhum item selecionado.`, classes: 'rounded'});
     }
     // pesquisarRecolhimento(recolhimento)
-    window.location.href = "http://localhost:5412/LD/Recolhimentos";
+    window.location.href = `http://${host}/LD/Recolhimentos`;
     
 }
 
 async function verificarItemCadastrado(id){
-    let autoinc = await axios.get(`http://localhost:5412/LD/Recolhimentos/api/ItemRecolhimento/Verifica/${id}`)
+    let autoinc = await axios.get(`http://${host}/LD/Recolhimentos/api/ItemRecolhimento/Verifica/${id}`)
                                     .then(response => {
                                     
                                         return response.data
@@ -415,7 +415,7 @@ gravar.addEventListener('click',async(event)=>{
     if(descricao != '' && descricao != undefined ){
 
                 //document.getElementById('formRecolhimento').submit()
-                retorno = await axios.post(`http://localhost:5412/LD/Recolhimento/Incluir`,{descricao})
+                retorno = await axios.post(`http://${host}/LD/Recolhimento/Incluir`,{descricao})
                 console.log('retorno: ', retorno.data)
                 if(retorno.data!='Duplicado'){
                     M.toast({html: `<span class='blue red-4' >Registro ${retorno.data[0]} incluído com sucesso</span>`, classes: 'rounded'});
@@ -465,7 +465,7 @@ function limparFormulario(){
 
 async function deletarRecolhimento(id, recolhimento){
     if(confirm('Tem certeza que deseja remover este item? ')){
-        let retorno = await axios.delete(`http://localhost:5412/LD/Recolhimento/Delete/${id}`)
+        let retorno = await axios.delete(`http://${host}/LD/Recolhimento/Delete/${id}`)
         .then(response => response.data)
         .catch((error) => {
         throw error.response.data
@@ -483,37 +483,10 @@ async function deletarRecolhimento(id, recolhimento){
     
 }
 
-
-// async function alteracaoRecolhimento(){
-    
-//     let descricao = document.getElementById('descricaoAlteracao').value
-//     let idRecolhimento = document.getElementById('idRecolhimentoAlterar').value
-    
-//     let recolhimento ={
-//         id: idRecolhimento,
-//         descricao: descricao
-//     }
-//     console.log('alteração Recolhimento: ', descricao)
-//      let retorno = await axios.post(`http://localhost:5412/LD/Recolhimento/Alterar`, recolhimento)
-//      .then(response => response.data)
-//     .catch((error) => {
-//       throw error.response.data
-//     })
-//     console.log('retorno da alteração: ', retorno)
-//     if(retorno==1){
-//         $('#modalAlterar').modal('hide')
-//         M.toast({html: `<span class='blue red-4' >Registro ${idRecolhimento} Alterado com sucesso</span>`, classes: 'rounded'});
-//          limpartabela()
-//          preencherTabelaRecolhimento(idRecolhimento)
-     
-//     }else{
-//         M.toast({html: `<span class='red dark-4 text-blue text-blue-dark-4' >Erro ao Alterar o Registro ${idRecolhimento}. Verifique </span>`, classes: 'rounded'});
-//        // limpartabela()
-//        // preencherTabelaRecolhimento(id)
-//     }
-    
-// }
-
+function direcionar(end){
+    window.location.href=`http://${host}${end}`
+    console.log(`http://${host}/${end}`)
+}
 
 function sairPainelRecolhimento(){
     // let conteudoRecolhimento = document.getElementById('conteudoRecolhimento')

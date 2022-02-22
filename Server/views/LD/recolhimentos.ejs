@@ -37,7 +37,7 @@
                 <div class="row">
                     <div class="col-2 center">
                       <label class="amber-text text-lighten-4 " >Adicionar Recolhimento</label>
-                        <a class="btn-floating btn-large waves-effect waves-light cyan darken-4" href="http://localhost:5412/LD/Recolhimentos/Inclusao"><i class="material-icons">add</i></a>
+                        <a class="btn-floating btn-large waves-effect waves-light cyan darken-4" onclick="direcionar('/LD/Recolhimentos/Inclusao')"><i class="material-icons">add</i></a>
  
                     </div>
                     <div class="col-4">
@@ -285,6 +285,7 @@
     <script type="text/javascript" src="/js/bootstrap.min.js" ></script>
     <script type="text/javascript" src="/js/axios.js"></script>
     <script type="text/javascript" src="/js/LD/controleRecolhimentoLD.js"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
     <script>
         $(document).ready(function() {
           M.updateTextFields();
