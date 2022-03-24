@@ -239,7 +239,7 @@ async function preencherTabelaItensRecolhidos(busca, codProduto){
                             <td nowrap="true">${recolhimento.desc_acabamento}</td>
                             <td nowrap="true">${recolhimento.quantidade}</td>
                             <td nowrap="true">${recolhimento.desc_motivo}</td>
-                            <td class="z-depth-1 subIcon" id="col4${recolhimento.autoinc_pedido}" onclick="setarStatus(${recolhimento.autoinc_pedido}, 4, id${recolhimento.autoinc_pedido})"><a ><i id="id${recolhimento.autoinc_pedido}" class="material-icons ${cordescarte}">thumb_down_off_alt</i></a></td>
+                            <td class="z-depth-1 subIcon" id="col4${recolhimento.autoinc_pedido}" onclick="setarStatus(${recolhimento.autoinc_pedido}, 4, id${recolhimento.autoinc_pedido})"><a ><i id="id${recolhimento.autoinc_pedido}" class="material-icons ${cordescarte}">remove_shopping_cart</i></a></td>
                             <td nowrap="true"><button type="button" class="btn btn-dark" onclick='deletarRecolhimento(${recolhimento.autoinc_pedido}, ${recolhimento.recolhimento})' id=${recolhimento.autoinc_pedido}><i class="material-icons">delete</i></button></td>
                             `
                         

@@ -99,8 +99,9 @@ async function preencherTabelaItensRecolhidos(busca){
             if(!saldoItemTotal[0].saldo){
                 saldoItemTotal[0].saldo   = 0
             }
-                                 
-                    const tr = document.createElement(`tr`)
+            
+            if(saldoItemTotal[0].saldo != 0){console.log('saldoItemTotal: ', saldoItemTotal)
+                  const tr = document.createElement(`tr`)
                     tr.setAttribute('id',item.pedido)
                     tr.innerHTML = `
                                     <td nowrap="true">${item.cod_analitico}</td>
@@ -111,13 +112,17 @@ async function preencherTabelaItensRecolhidos(busca){
                                     <td nowrap="true" class=" green-text text-accent-3">${saldoConcertando[0].saldo}</td>
                                     <td nowrap="true" class=" brown-text text-lighten-2">${saldoEmEstoque[0].saldo}</td>
                                     <td nowrap="true">${saldoItemTotal[0].saldo}</td>
+                                    <td nowrap="true"><a onclick="carregarFormulario('${item.cod_analitico}',${saldoEmEstoque[0].saldo}, '${item.desc_item} ${item.desc_variacao} ${item.desc_acabamento}')"  data-toggle="modal" data-target="#modalSaidaQtd"><i class="material-icons"><h1>exit_to_app</h1></i></a></td>
                                     `
                                 
                     corpoTabela.appendChild(tr)
+                    tabelaItem.style.display = 'block'
+            }
+                  
            
         }
         
-        tabelaItem.style.display = 'block'
+        
     }
     if(dados.length == 0){
 
@@ -141,4 +146,69 @@ function limpartabela(){
     }
    
 }
+
+ function carregarFormulario(cod_analitico, saldo, desc){
+    console.log('carregando....')
+    document.getElementById('formItemSaida').reset()    
+    let itemSaida = document.getElementById('itemSaida')
+    let disponivel = document.getElementById('disponivel')
+    document.getElementById('qtdDisponivel').value = saldo
+    document.getElementById('itemSaldo').value = cod_analitico
+
+    //let saldoItem = await buscarIDitemSaldoLD(cod_analitico, 3)
+    disponivel.innerText = ''
+    disponivel.innerText = saldo
+    itemSaida.innerText = ''
+    itemSaida.innerText = `Item: ${cod_analitico} - ${desc}`
+    divMsg.innerText=``
+}
+
+let gravarsainda = document.getElementById('gravarSaidaEstoque')
+gravarsainda.addEventListener('click', async (event)=>{
+    event.preventDefault()
+    console.log('acessando')
+    let disponivel = parseInt(document.getElementById('qtdDisponivel').value)
+    let qtdsaida  = parseInt(document.getElementById('quantidade').value)
+    let codigoItem = document.getElementById('itemSaldo').value
+    
+    let codigo = codigoItem.split('.',1)
+
+
+    if((disponivel > 0) && (qtdsaida > 0) ){
+       if(disponivel >= qtdsaida){
+           let quantidade = parseInt(disponivel) - parseInt(qtdsaida)
+           if(quantidade >=0){
+                    
+                let dados = {'cod_analitico':codigoItem, 'quantidade': quantidade}
+
+                    retorno = await axios.post(`http://${host}/LD/Saldo/api/ItemSaldo/Sair/`,{dados})
+                    console.log('retorno.data:', retorno.data)
+                    if(retorno.data){
+                        M.toast({html: `<span class='blue red-4' >Saída ${codigoItem} efetuada com sucesso</span>`, classes: 'rounded'});
+                        limpartabela()
+                        
+                        preencherTabelaItensRecolhidos(codigo[0])
+                        divMsg.innerText=``
+                        $('#modalSaidaQtd').modal('hide')
+                    }else{
+                        divMsg.innerText=`Saldo Indisponivel .`
+                        M.toast({html: `<span class='blue red-dark-4' >Saldo Indisponivel.</span>`, classes: 'rounded'});
+                    }
+            
+            }else{
+                divMsg.innerText=`Subtração não permitida. .`
+                M.toast({html: `<span class='blue red-dark-4' >Subtração não permitida.</span>`, classes: 'rounded'});
+            }
+            
+        }else{
+            divMsg.innerText=`Subtração não permitida. .`
+            M.toast({html: `<span class='blue red-dark-4' >Subtração não permitida.</span>`, classes: 'rounded'});
+        }
+
+ 
+    }else{
+        divMsg.innerText=`Subtração não permitida. .`
+        M.toast({html: `<span class='blue red-dark-4' >Subtração não permitida.</span>`, classes: 'rounded'});
+    }
+})
 

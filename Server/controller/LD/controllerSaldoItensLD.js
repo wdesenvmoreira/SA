@@ -17,25 +17,26 @@ const SaldoItem = async(cod_analitico, status) =>{
             }
             console.log('codicao diferente de V: ', condicao)
         registro =  await knex
-        .select('cod_item', 'desc_item', 'cod_variacao', 'desc_variacao', 'cod_acabamento', 'desc_acabamento', 'cod_analitico',  'status','status.descricao')
+        // .select('cod_item', 'desc_item', 'cod_variacao', 'desc_variacao', 'cod_acabamento', 'desc_acabamento', 'cod_analitico',  'status','status.descricao')
         .sum({saldo: 'quantidade'})
         .from('item_recolhido_ld')
         .leftJoin('status', 'item_recolhido_ld.status', 'status.id')
-        // .where('cod_analitico', cod_analitico)
         .where(condicao)
+        .andWhereNot('status', 4)
         .orderBy('cod_item', 'asc')
            
           
         }else{
-            if(status != 0){console.log('codicao igual a sem status V: ', condicao)
+            if(status != 0){
                 registro =  await knex
                 .sum({saldo: 'quantidade'})
                 // .select('cod_item', 'desc_item', 'cod_variacao', 'desc_variacao', 'cod_acabamento', 'desc_acabamento', 'cod_analitico',  'status','status.descricao')
                 .from('item_recolhido_ld')
                 .leftJoin('status', 'item_recolhido_ld.status', 'status.id')
                 .where(condicao)
+                .andWhereNot('status', 4)
                 .orderBy('cod_item', 'asc')
-            }else{console.log('codicao igual a V: status diferente de  4')
+            }else{
                 registro =  await knex
                 // .select('cod_item', 'desc_item', 'cod_variacao', 'desc_variacao', 'cod_acabamento', 'desc_acabamento', 'cod_analitico',  'status','status.descricao')
                 .sum({saldo: 'quantidade'})
@@ -173,6 +174,22 @@ const verificarStatus = async(inf) => {
     }
 }
 
+const SaidaItem = async(cod_analitico, quantidade)=>{
+    const status = 5
+    if(quantidade != 0){
+        status = 3
+    }
+    console.debug(cod_analitico, quantidade, status)
+    try {
+        return await knex('item_recolhido_ld')
+                .where({ 'cod_analitico':cod_analitico, 'status': 3 })
+                .update({quantidade, status})
+    } catch (error) {
+        return error
+    }
+}
+
+
 
 const create = async(novosdados) => {  
     novosdados.status = 1 
@@ -205,6 +222,7 @@ const update = async(id, dados) => {
         return error
     }
 }
+
 const updateStatus = async(autoinc_pedido, status) => {   
     try {
         return await knex('item_recolhido_ld')
@@ -228,4 +246,4 @@ const deletar = async(autoinc_pedido) =>{
 
 }
 
-module.exports = {SaldoItem,BuscarDados, findById, create, deletar, update, updateStatus, findByStatus, verificarStatus,  verificaItemRecolhimento, buscaAutoIncRecolhimento}
+module.exports = {SaidaItem, SaldoItem,BuscarDados, findById, create, deletar, update, updateStatus, findByStatus, verificarStatus,  verificaItemRecolhimento, buscaAutoIncRecolhimento}
