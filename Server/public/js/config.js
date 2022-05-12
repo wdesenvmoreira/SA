@@ -3,4 +3,3 @@ let port = "5412"
 
 let host = servidor+":"+port
 
-console.log('host: ', host)

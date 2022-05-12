@@ -49,6 +49,7 @@
                                     <th>USUARIO</th>
                                     <th>EDIÇÃO</th>
                                     <th>SENHA</th>
+                                    <th>WBI</th>
                                     <th>EXCLUIR</th>
                                 </thead>
                                  <tbody id="corpoTabela" name='corpoTabela'>
@@ -67,7 +68,7 @@
                         <div class="col-10 container">
                           <h4 class="amber-text text-lighten-4 ">Relatório e Indicadores : Usuario <span id="cabecalhoUW"></span> </h4>
                         </div>
-                        <div onclick="sairPainelUW()" class="col-2">X</div>
+                        <div onclick="sairPainelUW()" class="col-2"><i class="material-icons prefix amber-text text-lighten-4 ">close</i> </div>
                       </div>
                       <div class="row">
                         <di class=" col-12" >
@@ -95,9 +96,12 @@
         </div>
     </div>
 
-        <footer class="footer container">
+    <div class="row">
+      <footer class="footer container">
            Footer     
         </footer>
+    </div>
+        
 
 
 
@@ -242,6 +246,7 @@
     <script type="text/javascript" src="/js/bootstrap.min.js" ></script>
     <script type="text/javascript" src="/js/axios.js"></script>
     <script type="text/javascript" src="/js/controleUsuarios.js"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
     <script>
         $(document).ready(function() {
           M.updateTextFields();
