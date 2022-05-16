@@ -4,7 +4,7 @@ const rotasWBI = require('./rotasWBI')
 const rotasAuth = require('./routerAuth')
 const rotasLogout = require('./rotasLogout')
 const rotasPrincipal = require('./rotasPrincipal')
-const rotasAPI = require('./rotasAPI')
+const rotasAPI = require('./rotasAPI/')
 const rotasIndicadores = require('./rotasIndicadores')
 const rotasAPIIndicadores = require('./rotasAPIIndicadores')
 const config = require('../config/config.json')
@@ -22,13 +22,13 @@ const jwtSecret = require('../config/config.json').secret
 
 
 const rotas = (app) =>{
-    
+    rotasAPI(app)
     app.get('/', (req, res)=>{
         res.render('login', {message:''})
     }) 
     rotasLogout(app)
-    rotasAPI(app)
-    rotasAPIAuth(app)
+    
+  //  rotasAPIAuth(app)
     
     rotasAuth(app)
 
