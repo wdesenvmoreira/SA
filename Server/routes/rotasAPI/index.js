@@ -1,120 +1,121 @@
-const ctrlUsuarios = require('../../controller/controllerUsuarios')
-const ctrlUW = require('../controller/controllerUsuarioWbi')
+ const ctrlUsuario = require('../../controller/controllerUsuarios')
+const ctrlAPI = require('../../controller/API')
+// const ctrlUW = require('../controller/controllerUsuarioWbi')
 const passport = require('passport')
 const jwt = require('jsonwebtoken')
 //const jwtSecret = 'secreta'
-const jwtSecret = require('../config/config.json').secret
+const jwtSecret = require('../../config/config.json').secret
+const bcrypt = require('bcryptjs')
+const { json } = require('body-parser')
 
-const rotaAPI = (app) =>{console.log('entrando em api')
-    // app.use(async(req, res, next)=>{
-    //         const token = req.session.token;
-    //         if(token){
-    //             try {
-    //                 const payload = jwt.verify(token, jwtSecret)
-    //                 if(payload.edicao = 1){
-    //                   next();  
-    //                 }else{
-    //                     console.log('Não possui permissão para acessar esta pagina. Retornando para : ',req.headers.host+'\\'+req.path)
-    //                    res.redirect(req.headers.host+'\\'+req.path);
-    //                 }
+
+const rotaUsuario = (app) =>{
+
+    app.get('/api/faturamento/consultar', async(req, res) => {
+        console.log("entrou no usuarios todos")
+        const busca = await ctrlAPI.consultar('id_indicador','ty')	
+        res.json(busca)
+    })
+
+
+    app.post('/api/auth', async(req, res) =>{
+        try {
+
+            if(req.body.username.length === 0){
+                res.json({
+                    acesso: false,
+                    token:'',
+                    menssagem:'Necessário informar um usuário.'})
+            }
+            else
+            {
+               if(req.body.password.length === 0){
+                        res.json({
+                            acesso: false,
+                            token:'',
+                            menssagem:'Necessário informar a senha.'})
+                    }else{
+                        const user = await ctrlUsuario.findUsuario(req.body.username);
                     
-    //             } catch (error) {
-    //                 res.render('login',{message: 'Erro ao acessar. Acesse novamente.'});
-    //             }
-    //         }else{
-               
-    //             res.render('login',{message: 'Realize o login.'})
-    //         }
-    //     });
+                        if(user.length === 0){
+                            res.json({
+                                acesso: false,
+                                token:'',
+                                menssagem:'Usuário não existe.'})
+                        }
+                        else
+                        {
+                                const isValid = bcrypt.compareSync(req.body.password, user[0].senha)
+                                console.log('isValid:' , isValid)
+                            if(isValid){
+                                const payload = {
+                                id: user[0].id,
+                                username: user[0].usuario,
+                                edicao: user[0].edicao
 
-
-    app.get('/api/', (req,res)=>{
-        console.log('entrou em api')
-    })
-    app.get('/api/usuarios', (req,res)=>{
-        res.render('Usuarios/usuarios')
-    })
-    app.get('/api/usuarios/todos/', async(req, res) => {
-        console.log('Todos usuarios: ')
-        const busca = await ctrlUsuarios.findAll()	
-        res.json(busca)
-    })
-
-    app.get('/usuarios/:id/',async(req, res) => {
-        console.log('req.params.id: ',req.params.id)
-        const busca = await ctrlUsuarios.findById(req.params.id)
-        res.json(busca)
-    })
-
-    app.get('/usuarios/usuario/:user', async(req, res) => {
-        console.log('user: ',req.params.user)
-        let usuario = await ctrlUsuarios.verificarUsuario(req.params.user)
-        console.log('usuario por nome? ', usuario)
-
-        res.json(usuario)
-    })
-    app.get('/usuariosapi/:user', async(req, res) => {
-        let usuario 
-        
-        if(req.params.user == 'todos'){
-             usuario = await ctrlUsuarios.findAll(req.params.user)
-        }else{
-             usuario = await ctrlUsuarios.findByUsuario(req.params.user)
+                                }
+                                jwt.sign(payload, jwtSecret, (err, token)=>{
+                                    req.session.token = token;
+                                    // res.redirect('/principal');
+                                    res.json(
+                                        {
+                                            acesso: true,
+                                            token:token,
+                                            menssagem:'Usuário não existe.'})
+                                })
+                                
+                            }else
+                                res.json({
+                                    acesso: false,
+                                    token:'',
+                                    menssagem:'Usuário e Senha não conferem.'})
+                                // res.render('login',{success: false, message:'Problemas no acesso. '}) 
+                        }
+                    }
+                    
+            
+             }
+    
+        } catch (error) {
+             console.log(error);
              
         }
-        res.json(usuario)
-    })
-
-    app.post('/usuarios/incluir', async(req, res) => {
-
-        const usuario = { ...req.body}
-        const incluir = await ctrlUsuarios.create(usuario)
-            res.json(incluir)
-        
         
     })
+    app.post('/api/validate', async(req, res) =>{
+        const token = req.body.token
+        try {
 
-
-
-    app.delete('/usuarios/delete/:id',async(req, res) => {
-        const deletar = await ctrlUsuarios.deletar(req.params.id)
-        if(deletar==1){          
-           res.json(deletar) 
-        }else{
-            res.json(deletar.msg)
+            if(token === 0){
+                res.json(false)
+            }
+            else
+            {jwt.verify(token, jwtSecret, (err, decoded)=>{
+                if(err){
+                    res.json(false)
+                }else{
+                    res.json({acesso: true,id: decoded.id,user: decoded.username })
+                }
+            })
+                    
+            
+             }
+    
+        } catch (error) {
+             console.log(error);
+             
         }
         
     })
-  
-app.post('/usuarios/alterar', async(req, res)=>{
-    console.log('req.body altearar: ', req.body)
-    let alterar = await ctrlUsuarios.update(req.body.id, req.body)
-    if(alterar){
-        res.json(alterar)
-    }else{
-        res.send('Registro não alterado. ')
-    }
-})
 
-   app.post('/usuarios/acessar',
-    passport.authenticate('local', { 
-                                        successFlash : "Hey, Welcome back",
-                                        successRedirect: '/usuarios/todos',
-                                        failureRedirect: '/',
-                                        failureFlash: false ,
-                                     }),(req, res)=>{
-                                         res.locals.user = req.user
-                                         console.log('dentro do req local user: ', res.locals.user)
-                                         //console.log('dentro do res: ', res)
-                                         
-                                    res.render('login')
-                                }
-    )
+    app.post('/api/logout', async(req, res) =>{
+        res.json(true)
+    })
 
-
+   
 }
 
 
 
 
-module.exports = rotaAPI
+module.exports = rotaUsuario
