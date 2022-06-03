@@ -1,6 +1,6 @@
  const ctrlUsuario = require('../../controller/controllerUsuarios')
 const ctrlAPI = require('../../controller/API')
-// const ctrlUW = require('../controller/controllerUsuarioWbi')
+ const ctrlUW = require('../../controller/controllerUsuarioWbi')
 const passport = require('passport')
 const jwt = require('jsonwebtoken')
 //const jwtSecret = 'secreta'
@@ -11,10 +11,31 @@ const { json } = require('body-parser')
 
 const rotaUsuario = (app) =>{
 
+    app.get('/api/consultar/dadosindicador/:id', async(req, res) => {
+        console.log('id: ', req.params.id)
+        const busca = await ctrlAPI.consultarDadosIndicador(req.params.id,'ty')	
+        res.json(busca)
+    }) 
+
     app.get('/api/faturamento/consultar', async(req, res) => {
         console.log("entrou no usuarios todos")
         const busca = await ctrlAPI.consultar('id_indicador','ty')	
         res.json(busca)
+    })
+    app.get('/api/consultar/:id', async(req, res) => {
+        console.log('id: ', req.params.id)
+        const busca = await ctrlAPI.consultar(req.params.id,'ty')	
+        res.json(busca)
+    })  
+
+
+    
+    //Busca dados do Indicador por usuário.
+    app.get('/api/consultaWBIUser', async(req, res) => {
+        console.log('req.query.user: ', req.query.user)
+        let wbisUser = await ctrlUW.listaWbiNomeUsuario(req.query.user)
+        console.log('wbisUser: ', wbisUser)
+        res.json(wbisUser)
     })
 
 
@@ -61,6 +82,7 @@ const rotaUsuario = (app) =>{
                                         {
                                             acesso: true,
                                             token:token,
+                                            user: user[0].usuario,
                                             menssagem:'Usuário não existe.'})
                                 })
                                 

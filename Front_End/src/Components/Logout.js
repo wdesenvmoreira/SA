@@ -3,7 +3,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import {AuthContext} from '../auth'
-import {Button} from 'reactstrap'
+import { Button } from "react-bootstrap";
 
 
 

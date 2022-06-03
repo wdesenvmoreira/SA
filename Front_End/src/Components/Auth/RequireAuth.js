@@ -5,13 +5,30 @@ import { useNavigate } from "react-router-dom";
 
 
 export const RequireAuth = ({children})=>{
-    const auth = useContext(AuthContext)
+    const auth = useContext(AuthContext)   
     const navigate = useNavigate();
-    console.log('auth em RequireAuth: ', auth)
-    if(!auth.user){
-        console.log('auth.user', auth.user, 'auth', auth)
-        navigate('/login', {replace: true})
-    }
-    return children
+  
     
+    // if(!auth.user){
+    //      console.log('auth.user antes do efect', auth.user)
+         
+    //     navigate('/login', {replace: true})
+    // }
+  
+    console.log('depois do validar', auth.user)
+    // eslint-disable-next-line
+
+      // useEffect(() => {  
+     
+
+        if(!localStorage.getItem('token')){
+         const navg = ()=>{ navigate("/login")}
+         navg()
+        }
+      // }, [auth]); 
+      
+
+    // eslint-disable-next-line
+// eslint-disable-next-line
+    return children
 }

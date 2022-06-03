@@ -4,7 +4,7 @@ const path = require('path')
 const connection = knex({
     client: 'sqlite3',
     connection: {
-      filename: path.resolve(__dirname,'sam_db.sqlite3')
+      filename: path.resolve(__dirname,'indicadores.sqlite3')
     },
     useNullAsDefault:true,
 })

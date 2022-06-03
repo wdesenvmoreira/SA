@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useContext } from 'react'
 import Cabecalho from "../../Components/Cabecalho";
-import { Alert } from 'reactstrap'
+import { Alert } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../auth';
 
@@ -10,18 +10,11 @@ const Login = () => {
   const auth = useContext(AuthContext)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  // const [user, setUser]         = useState(null)
-  // const [logado, setLogado]     = useState(null)
   const [message, setMessage]   = useState(' ')
-    useEffect(() => {
-             
 
-    }, []);
   const navigate = useNavigate(); 
-  
-  
 
-  async function  acessar(){console.log('acessando...')
+  async function  acessar(){
     
         const dados = await auth.login(username, password)
         console.log('dados: ', dados)
@@ -30,25 +23,7 @@ const Login = () => {
         }else{
             setMessage(dados.menssagem)
         }
-    
 
-    // let dadosLogin = await axios.post('http://localhost:5412/api/auth',{
-    //   username: username,
-    //   password: password
-    // })
-
-    // console.log('dadoslogin: ', dadosLogin)
-    
-
-    // if(dados.acesso){
-    //   console.log('dados para login data: ', dadosLogin.data)
-    //     localStorage.setItem('acesso',dadosLogin.data.acesso);
-    //     localStorage.setItem('token', dadosLogin.data.token);
-    //     localStorage.setItem('user', username)
-    //     navigate('/dashboard');
-    // }else{
-    //   setMessage(dadosLogin.data.menssagem)
-    // }
   }
 
 
@@ -61,7 +36,6 @@ const Login = () => {
           
             <hr className='my-3'/>
 
-          {/* <form class="Form" action="http://localhost:5412/API/login" method="Post"> */}
               <div className="Form-Group">
                 <div className='row'>
                     <div className="input-field col-md-6">

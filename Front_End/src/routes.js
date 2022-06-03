@@ -12,6 +12,7 @@ import IndPizza from "./Components/Indicadores/indPizza";
 
 import { AuthProvider } from "./auth";
 import { RequireAuth } from "./Components/Auth/RequireAuth";
+import Sobre from "./pages/Sobre";
 
 export default function Rotas (){
     
@@ -32,6 +33,8 @@ export default function Rotas (){
             </Route >
 
             <Route path="/contatos/:parametro" element={<RequireAuth><Contatos /></RequireAuth>} />
+
+            <Route path="/sobre" element={<Sobre />} />
             
             <Route path="*" element={<SemPagina />} />
             

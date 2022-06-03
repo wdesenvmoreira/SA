@@ -1,8 +1,12 @@
 
+const { consulta } = require('../../module/dbFirebird/firebird')
 const consultaBD = require('../controllerFirebird')
+const ctrlIndicadores = require('../controllerIndicadores')
 
-const consultar = (tipo, dados)=>{
-    let data = consultaBD.consultar(`
+
+
+const consultar = (id, dados)=>{
+    data = consultaBD.consultar(`
     select
     docfat.codigo_docfat as PEDIDOS ,
     docfat.cliente_docfat as CLIENTE,
@@ -17,6 +21,13 @@ const consultar = (tipo, dados)=>{
     return data
 }
 
+const consultarDadosIndicador = async (id)=>{
+    let sql = await ctrlIndicadores.findSQLById(id);   
+    data= await consultaBD.consultar(sql.dados)
+    
+    return data
+}
+
 //module.exports = consultar
-module.exports = { consultar }
+module.exports = { consultar, consultarDadosIndicador }
 

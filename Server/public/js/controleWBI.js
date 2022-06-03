@@ -1,6 +1,7 @@
+
+
 async function buscarWBI(busca){
     let dados
-    
 
     
    if(busca/1 || busca==0 && !busca.match(/^(\s)+$/) && busca !=''){
@@ -14,7 +15,7 @@ async function buscarWBI(busca){
     }
 
     
-        dados = await axios.get(`http://localhost:5412/wbi/${busca}`)
+        dados = await axios.get(`http://${host}/wbi/${busca}`)
         .then(response => {
            
             return response.data
@@ -128,7 +129,7 @@ gravar.addEventListener('click',async(event)=>{
     if(nome != '' && nome != undefined ){
         if(titulo != '' && titulo != undefined ){
                 //document.getElementById('formwbi').submit()
-                retorno = await axios.post(`http://localhost:5412/wbi/incluir`,{nome, titulo, dados, width, height, chartType, options})
+                retorno = await axios.post(`http://${host}/wbi/incluir`,{nome, titulo, dados, width, height, chartType, options})
                 
                 if(retorno.data!='Duplicado'){
                     M.toast({html: `<span class='blue red-4' >Registro ${retorno.data[0]} incluído com sucesso</span>`, classes: 'rounded'});
@@ -155,7 +156,7 @@ function limparFormulario(){
 }
 
 async function deletarWBI(id){
-    let retorno = await axios.delete(`http://localhost:5412/wbi/delete/${id}`)
+    let retorno = await axios.delete(`http://${host}/wbi/delete/${id}`)
     .then(response => response.data)
     .catch((error) => {
       throw error.response.data
@@ -195,7 +196,7 @@ async function alteracaoWBI(){
     }
 
    
-     let retorno = await axios.post(`http://localhost:5412/wbi/alterar`, wbi)
+     let retorno = await axios.post(`http://${host}/wbi/alterar`, wbi)
      .then(response => response.data)
     .catch((error) => {
       throw error.response.data
@@ -234,12 +235,12 @@ async function listaWBIUsuario (id, nome){
     }
 
     
-    let retorno = await axios.get(`http://localhost:5412/uwind/${id}`)
+    let retorno = await axios.get(`http://${host}/uwind/${id}`)
     .then(response => response.data)
     .catch( (error)=> {
         throw error.response.data
     })
-   
+   console.log('retorno: ', retorno)
   
     if(retorno.length > 0){
          
@@ -289,7 +290,7 @@ async function alterarUW(id, op){
     }
    
 
-     let retorno = await axios.put(`http://localhost:5412/uw/alterar`, uwbi)
+     let retorno = await axios.put(`http://${host}/uw/alterar`, uwbi)
      .then(response => response.data)
      .catch((error) => {
       throw error.response.data
@@ -324,7 +325,7 @@ async function gravarUW(id, iduser){
                 id_indicador: parseInt(id),
                 id_usuario: iduser
             }
-             retorno = await axios.put(`http://localhost:5412/uw/gravarUsuarios`, usuarios)
+             retorno = await axios.put(`http://${host}/uw/gravarUsuarios`, usuarios)
             .then(response => response.data)
             .catch((error) => {
             throw error.response.data
@@ -350,7 +351,7 @@ async function deletaruW(id){
 
         let iduw = parseInt(id)
        
-        retorno = await axios.delete(`http://localhost:5412/uw/delete/${iduw}`)
+        retorno = await axios.delete(`http://${host}/uw/delete/${iduw}`)
         .then(response => response.data)
         .catch((error) => {
         throw error.response.data

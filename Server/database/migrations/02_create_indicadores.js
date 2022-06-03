@@ -12,6 +12,7 @@ exports.up = async function (knex) {
                 table.string('height').notNullable();
                 table.string('chartType').notNullable();
                 table.string('options').notNullable();
+                table.string('modulo').notNullable();                
             })
             
 }

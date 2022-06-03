@@ -22,16 +22,17 @@ export const AuthProvider = ({ children })=>{
         validateToken();
     },[api]);
   
-    const setToken=(token)=>{
-        localStorage.setItem('token', token)
+    const setDados=(dados)=>{
+        localStorage.setItem('token', dados.data.token)
+        localStorage.setItem('usuario', dados.data.user)
     }
 
      const login = async(username, password) =>{
          const dados = await api.login(username, password)
-        
+        console.log('dados em login no auth: ',dados)
          if(dados.data.acesso && dados.data.token){
              setUser(username)
-             setToken(dados.data.token)
+             setDados(dados)
              
          }
          return dados.data;
@@ -41,12 +42,26 @@ export const AuthProvider = ({ children })=>{
     const logout = async() =>{
         await api.logout();
         setUser(null);
-        setToken('')
+        let dados = {data:{token:'',usuario:''}}
+        setDados(dados)
+    }
+
+    const validar = async()=>{
+        const token = localStorage.getItem('token');
+        if(token){
+            const dados = await api.validateToken(token)
+            console.log('Validando, dados: ',dados.data.user)
+            if(dados.data.user){
+                setUser(dados.data.user);
+                return true
+            }
+        }
+        return false
     }
 
     return(
         <AuthContext.Provider
-            value={{user, login, logout}}
+            value={{user, login, logout, validar}}
         >
              { children }
         </AuthContext.Provider>

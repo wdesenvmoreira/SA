@@ -2,7 +2,7 @@ import React from "react";
 import Cabecalho from "../../Components/Cabecalho";
 import { Link } from "react-router-dom";
 import { useParams, useNavigate} from "react-router-dom";
-import { Breadcrumb, Button } from "reactstrap";
+import { Breadcrumb, Button } from "react-bootstrap";
 
 const Contato = () => {
   
