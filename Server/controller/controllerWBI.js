@@ -7,7 +7,7 @@ const passport = require('passport')
 const findAll = async() =>{
     
     try {
-        return await knex('indicadores').select('id', 'nome', 'titulo', `dados`,`width`, `height`, `chartType`, `options` )
+        return await knex('indicadores').select('id', 'nome', 'titulo', `dados`,`width`, `height`, `chartType`, `options`, `modulo` )
       
     }
     catch (error) {
@@ -21,7 +21,7 @@ const findById = async(id) =>{
   
            const registro = await knex('indicadores')
                             .where('id', id)
-                            .select('id', 'nome', 'titulo', `dados`,`width`, `height`, `chartType`, `options` )
+                            .select('id', 'nome', 'titulo', `dados`,`width`, `height`, `chartType`, `options`, `modulo` )
                             .first()     
             return registro
     } catch (error) {
@@ -47,7 +47,7 @@ const findByWBI = async(ind) => {
             ind = ind.trim()
             return await knex('indicadores')
             .where('titulo', 'like', `%${ind}%`)
-            .select('id', 'nome', 'titulo', `dados`,`width`, `height`, `chartType`, `options` )
+            .select('id', 'nome', 'titulo', `dados`,`width`, `height`, `chartType`, `options`,`modulo`)
         
         } catch (error) {
             return error

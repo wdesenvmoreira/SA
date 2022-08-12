@@ -49,6 +49,7 @@ main{
     padding: 10px 15px;
     gap: 15px;
     transition: all 0.5s;
+    background: rgb(52, 77, 92);
     
 }
 .link:hover{
@@ -61,10 +62,10 @@ main{
     color: #000;
 }
 .icon, .link_text{
-    font-size: 20px;
+    font-size: 0.9vw;
     color: black;
 }
 .siderbarcss{
-    position: absolute;
-    z-index: 1;
+    position: relative;
+    
 }

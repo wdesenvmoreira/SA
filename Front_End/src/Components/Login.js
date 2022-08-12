@@ -50,12 +50,12 @@ const Login = () => {
             <hr className='my-3'/>
 
           {/* <form class="Form" action="http://localhost:5412/API/login" method="Post"> */}
-              <div className="Form-Group">
-                <div className='row'>
-                    <div className="input-field col-md-6">
-                      <span className='LBFormLogin' >USUÁRIO:</span>
+              <div className="Form-Group ">
+                <div className='row container'>
+                    <div className="input-field col-md-12">
+                      <span className='' >USUÁRIO:</span>
                     </div>
-                    <div className="input-field col-md-6">
+                    <div className="input-field col-md-12">
                       <input className='LBFormLogin validate' id="username" name="username" type="text"  placeholder='Informe o Usuário' onChange={e => setUsername(e.target.value)}/>
                     </div>
                 </div>

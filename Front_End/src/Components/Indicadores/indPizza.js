@@ -1,14 +1,30 @@
 import React from "react";
 
 
-const indPizza = () => {
+import { Chart } from "react-google-charts";
+
+const IndPizza = ({data}) => {
+                  const options = {
+                chart: {
+                    title: "Faturamento nos Ultimos 30 dias ",
+                    subtitle: "Faturamento 30 dias",
+                },
+                };
     return(
         <>
             <div className="menuDashboard">
-               <h3>Indicador de Pizza </h3> 
+            
+                    <Chart
+                    chartType="Line"
+                    width="100%"
+                    height="400px"
+                    data={data}
+                    options={options}
+                    />
+       
             </div>
         </>
     )
 }
 
-export default indPizza
+export default IndPizza

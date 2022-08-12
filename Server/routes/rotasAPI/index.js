@@ -10,11 +10,24 @@ const { json } = require('body-parser')
 
 
 const rotaUsuario = (app) =>{
+// Seleção dos pedidos do cliente no periodo
+    app.get('/api/consultar/detalhamentoindicador/cliente/:id', async(req, res) => {
+        const busca = await ctrlAPI.consultarDetalhamentocliente(req.params.id)	
+        console.debug('retorno da consulta detalhamentocliente ', busca)
+        res.json(busca)
+    })
+// Seleção do total de faturamento dos clientes no periodo
+    app.get('/api/consultar/detalhamentoindicador/clientes', async(req, res) => {
+        // console.log('id: ', req.params.id)
+        const busca = await ctrlAPI.consultarDetalhamentoindicador(1)	
+        res.send(busca)
+    })
+   
 
     app.get('/api/consultar/dadosindicador/:id', async(req, res) => {
-        console.log('id: ', req.params.id)
-        const busca = await ctrlAPI.consultarDadosIndicador(req.params.id,'ty')	
-        res.json(busca)
+        console.log('dados indicador: ', req.params.id)
+        const busca = await ctrlAPI.consultarDadosIndicador(req.params.id)	
+        res.send(busca)
     }) 
 
     app.get('/api/faturamento/consultar', async(req, res) => {

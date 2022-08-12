@@ -36,8 +36,8 @@ const rotaItemRecolhimentoLD = (app) =>{
         res.render('LD/recolhimentosInclusao')
     }) 
 
-    app.get('/LD/Recolhimentos/api/recolhimento/:recolhimento',async(req, res)=>{
-            let dados  = await ctrlRecolhimento.consultaRecolhimento(req.params.recolhimento)
+    app.get('/LD/Recolhimentos/api/recolhimento/:recolhimento&:tipo',async(req, res)=>{
+            let dados  = await ctrlRecolhimento.consultaRecolhimento(req.params.recolhimento,req.params.tipo)
             console.log('/LD/Recolhimentos/api/recolhimento/:recolhimento:', dados)
             res.json(dados)
 
@@ -51,14 +51,14 @@ const rotaItemRecolhimentoLD = (app) =>{
 
 })
 
-    app.get('/LD/Recolhimentos/api/DadosItemRecolhimento/:autoinc',async(req, res)=>{console.log('recolhimento: ',req.params.autoinc)
-        let dados  = await ctrlRecolhimento.consultaItemRecolhimento(req.params.autoinc)
+    app.get('/LD/Recolhimentos/api/DadosItemRecolhimento/:autoinc&:tipo',async(req, res)=>{console.log('recolhimento: ',req.params.autoinc)
+        let dados  = await ctrlRecolhimento.consultaItemRecolhimento(req.params.autoinc, req.params.tipo)
         res.json(dados)
 
     })
 
-app.get('/LD/Recolhimentos/api/ItemRecolhimento/Verifica/:id',async(req, res)=>{
-    let dados  = await ctrlRecolhimento.verificaItemRecolhimento(req.params.id)
+app.get('/LD/Recolhimentos/api/ItemRecolhimento/Verifica/:id&:tipo',async(req, res)=>{
+    let dados  = await ctrlRecolhimento.verificaItemRecolhimento(req.params.id,req.params.tipo)
 
     if(dados){
         res.json(true)
@@ -69,8 +69,9 @@ app.get('/LD/Recolhimentos/api/ItemRecolhimento/Verifica/:id',async(req, res)=>{
 
 })
 
-app.get('/LD/Recolhimentos/api/ItemRecolhimento/buscaAutoIncRecolhimento/:id',async(req, res)=>{
-    let dados  = await ctrlRecolhimento.buscaAutoIncRecolhimento(req.params.id)
+
+app.get('/LD/Recolhimentos/api/ItemRecolhimento/buscaAutoIncRecolhimento/:id&:tipo',async(req, res)=>{
+    let dados  = await ctrlRecolhimento.buscaAutoIncRecolhimento(req.params.id, req.params.tipo)
 
     if(dados){
         res.json(dados)
@@ -130,7 +131,54 @@ app.get('/LD/Recolhimentos/api/ItemRecolhimento/buscaAutoIncRecolhimento/:id',as
             res.send('Registro não alterado. ')
         }
     })
+
+    app.get('/LD/variacao/:id',async(req, res)=>{
+        let dados  = await ctrlRecolhimento.consultaVariacao(req.params.id)
+        console.log('dados na rota: ', dados)
+        if(dados){
+            res.json(dados[0])
+        }else{
+           res.json(false) 
+        }
+        
     
+    })
+
+    app.get('/LD/acabamento/:id',async(req, res)=>{
+        let dados  = await ctrlRecolhimento.consultaAcabamento(req.params.id)
+    
+        if(dados){
+            res.json(dados[0])
+        }else{
+           res.json(false) 
+        }
+        
+    
+    })
+
+    app.get('/LD/item/:id',async(req, res)=>{
+        let dados  = await ctrlRecolhimento.consultaItem(req.params.id)
+    
+        if(dados){
+            res.json(dados[0])
+        }else{
+           res.json(false) 
+        }
+        
+    
+    })  
+
+    app.get('/LD/motivo/:id',async(req, res)=>{
+        let dados  = await ctrlRecolhimento.consultaMotivo(req.params.id)
+    
+        if(dados){
+            res.json(dados[0])
+        }else{
+           res.json(false) 
+        }
+        
+    
+    })  
     
 
 

@@ -35,7 +35,9 @@ export default function Rotas (){
             <Route path="/contatos/:parametro" element={<RequireAuth><Contatos /></RequireAuth>} />
 
             <Route path="/sobre" element={<Sobre />} />
-            
+
+            <Route path="/indicadores" element={<Indicadores />} />
+
             <Route path="*" element={<SemPagina />} />
             
         

@@ -18,13 +18,113 @@ const consultaBanco = async (campos, tabela, condicao)=>{
     
 
 }
-const consultaRecolhimento = async (recolhimento)=>{
+//Busca de Dados Variação no Sistema Tek-System
+const consultaVariacao = async (id)=>{
     let dados = []
-    let sql = (`  
-    select
-        docfat.codigo_docfat as "pedido",
-        recolhimento.autoinc_rec as "recolhimento",
-        recolhimento.tipo_rec as "tipo_rec",
+    let sql = `select v.codigo_variacao, v.descricao_variacao from variacao v where v.codigo_variacao = ${id}`
+    
+    console.log('sql consulta banco: ', sql)
+    
+    try {
+        dados = await firebird.consultar(sql)
+        return dados
+    } catch (error) {
+        console.log('Erro na consulta firebird: ', error)
+        return error
+    }
+    
+}
+//Busca de Dados Acabamento no Sistema Tek-System
+const consultaAcabamento = async (id)=>{
+    let dados = []
+    let sql = `select a.codigo_acabamento, a.descricao_acabamento from acabamento a where a.codigo_acabamento = ${id}`
+    
+    console.log('sql consulta banco: ', sql)
+    
+    try {
+        dados = await firebird.consultar(sql)
+        return dados
+    } catch (error) {
+        console.log('Erro na consulta firebird: ', error)
+        return error
+    }
+    
+}
+//Busca de Dados Item no Sistema Tek-System
+const consultaItem = async (id)=>{
+    let dados = []
+    let sql = `select i.codigo_item, i.descricao_item from item i where i.codigo_item = ${id}`
+    
+    console.log('sql consulta banco: ', sql)
+    
+    try {
+        dados = await firebird.consultar(sql)
+        return dados
+    } catch (error) {
+        console.log('Erro na consulta firebird: ', error)
+        return error
+    }
+    
+}
+//Busca de Dados Motivo no Sistema Tek-System
+const consultaMotivo = async (id)=>{
+    let dados = []
+    let sql = `select m.codigo_motivo, m.descricao_motivo from motivo m where m.codigo_motivo = ${id}`
+    
+    console.log('sql consulta banco: ', sql)
+    
+    try {
+        dados = await firebird.consultar(sql)
+        return dados
+    } catch (error) {
+        console.log('Erro na consulta firebird: ', error)
+        return error
+    }
+    
+}
+
+
+const consultaRecolhimento = async (documento, tipo)=>{
+    let dados = []
+    let sql = ''
+    console.log('tipo dentro do consultaRecolhimento: ', tipo)
+    if(tipo ==='recolhimento'){
+    sql = (`  
+        select
+            docfat.codigo_docfat as "pedido",
+            recolhimento.autoinc_rec as "recolhimento",
+            recolhimento.tipo_rec as "tipo_rec",
+            docfat.cliente_docfat as "cod_cliente",
+            p.razaosocial_pessoa as "razao_cliente",
+            did.autoinc_docitemdet as "autoinc_pedido",
+            did.item_docitemdet as "cod_item",
+            i.descricao_item as "desc_item",
+            did.variacao_docitemdet as "cod_variacao",
+            v.descricao_variacao as "desc_variacao",
+            did.acabamento_docitemdet as "cod_acabamento",
+            a.descricao_acabamento as "desc_acabamento",
+            did.item_docitemdet ||'.'||did.variacao_docitemdet||'.'||did.acabamento_docitemdet as "cod_analitico",
+            recolhimento_entrega.qtdechapas_recent as "quantidade",
+            recolhimento_entrega.motivo_recent as "cod_motivo",
+            motivo.descricao_motivo as "desc_motivo"
+        from recolhimento_entrega
+            left join recolhimento on ( recolhimento.autoinc_rec = recolhimento_entrega.autoincrec_recent)
+            left join documento_item_detalhe did on (did.autoinc_docitemdet = recolhimento_entrega.ai_docitemdetalhe_recent)
+            left join documento_fatura docfat on (docfat.codigo_docfat = did.documento_docitemdet)
+            left join pessoa p on (p.codigo_pessoa = docfat.cliente_docfat)
+            left join item i on (i.codigo_item = did.item_docitemdet)
+            left join variacao v on (v.codigo_variacao = did.variacao_docitemdet)
+            left join acabamento a on (a.codigo_acabamento = did.acabamento_docitemdet)
+            left join motivo on (motivo.codigo_motivo = recolhimento_entrega.motivo_recent)
+        where recolhimento.autoinc_rec = ${documento}
+            and docfat.entrega_docfat = 'N'
+            and recolhimento.tipo_rec = 1
+     `)
+    }else{
+        sql =(`select
+        docfat.codigo_docfat  as "pedido",
+        deg.autoincdoc_docent as "recolhimento",
+        10 as "tipo_rec",
         docfat.cliente_docfat as "cod_cliente",
         p.razaosocial_pessoa as "razao_cliente",
         did.autoinc_docitemdet as "autoinc_pedido",
@@ -35,22 +135,26 @@ const consultaRecolhimento = async (recolhimento)=>{
         did.acabamento_docitemdet as "cod_acabamento",
         a.descricao_acabamento as "desc_acabamento",
         did.item_docitemdet ||'.'||did.variacao_docitemdet||'.'||did.acabamento_docitemdet as "cod_analitico",
-        recolhimento_entrega.qtdechapas_recent as "quantidade",
-        recolhimento_entrega.motivo_recent as "cod_motivo",
+        dcee.qtdechapas_docentdev as "quantidade",
+        dcee.motivo_docentdev as "cod_motivo",
         motivo.descricao_motivo as "desc_motivo"
-    from recolhimento_entrega
-        left join recolhimento on ( recolhimento.autoinc_rec = recolhimento_entrega.autoincrec_recent)
-        left join documento_item_detalhe did on (did.autoinc_docitemdet = recolhimento_entrega.ai_docitemdetalhe_recent)
-        left join documento_fatura docfat on (docfat.codigo_docfat = did.documento_docitemdet)
+    from documento_fatura docfat
+        left join documento_entrega_devcan dcee on (dcee.documento_docentdev = docfat.codigo_docfat)
+        left join documento_entrega deg on (deg.AUTOINC_DOCENT = dcee.AUTOINCDOCENT_DOCENTDEV)
+        left join CARGA_ITENS                     on (CARGA_ITENS.AUTOINC_CARITE = deg.CARGAITENS_DOCENT)
+        left join CARGA_DOCUMENTOS                on (CARGA_DOCUMENTOS.AUTOINC_CARDOC = CARGA_ITENS.AUTOINCCARDOC_CARITE)
+        left join DOCUMENTO_ITEM_DETALHE did          on (did.AUTOINC_DOCITEMDET = CARGA_ITENS.AUTOINCITEMDETDOC_CARITE)
         left join pessoa p on (p.codigo_pessoa = docfat.cliente_docfat)
         left join item i on (i.codigo_item = did.item_docitemdet)
         left join variacao v on (v.codigo_variacao = did.variacao_docitemdet)
         left join acabamento a on (a.codigo_acabamento = did.acabamento_docitemdet)
-        left join motivo on (motivo.codigo_motivo = recolhimento_entrega.motivo_recent)
-    where recolhimento.autoinc_rec = ${recolhimento}
+        left join motivo on (motivo.codigo_motivo = dcee.motivo_docentdev)
+    where docfat.codigo_docfat = ${documento}
         and docfat.entrega_docfat = 'N'
-        and recolhimento.tipo_rec = 1
-     `)
+        and docfat.tipo_docfat = 1
+        and docfat.opcao_docfat = 4
+        and docfat.origementrega_docfat = 'S'`)
+    }
     
 
     console.log('sql consulta banco: ', sql)
@@ -65,43 +169,84 @@ const consultaRecolhimento = async (recolhimento)=>{
     
 
 }
-
-const consultaItemRecolhimento = async (autoinc)=>{
+//Busca no sistema da Tek-System dados referente a recolhimento ou devolução informados. 
+//Através desta função o sistema possui dados para registrar. 
+const consultaItemRecolhimento = async (autoinc,tipo)=>{
     let dados = []
-    let sql = (`  
-    select
-        docfat.codigo_docfat as "pedido",
-        recolhimento.autoinc_rec as "recolhimento",
-        recolhimento.tipo_rec as "tipo_rec",
-        docfat.cliente_docfat as "cod_cliente",
-        p.razaosocial_pessoa as "razao_cliente",
-        did.autoinc_docitemdet as "autoinc_pedido",
-        did.item_docitemdet as "cod_item",
-        i.descricao_item as "desc_item",
-        did.variacao_docitemdet as "cod_variacao",
-        v.descricao_variacao as "desc_variacao",
-        did.acabamento_docitemdet as "cod_acabamento",
-        a.descricao_acabamento as "desc_acabamento",
-        did.item_docitemdet ||'.'||did.variacao_docitemdet||'.'||did.acabamento_docitemdet as "cod_analitico",
-        recolhimento_entrega.qtdechapas_recent as "quantidade",
-        recolhimento_entrega.motivo_recent as "cod_motivo",
-        motivo.descricao_motivo as "desc_motivo"
-    from recolhimento_entrega
-        left join recolhimento on ( recolhimento.autoinc_rec = recolhimento_entrega.autoincrec_recent)
-        left join documento_item_detalhe did on (did.autoinc_docitemdet = recolhimento_entrega.ai_docitemdetalhe_recent)
-        left join documento_fatura docfat on (docfat.codigo_docfat = did.documento_docitemdet)
-        left join pessoa p on (p.codigo_pessoa = docfat.cliente_docfat)
-        left join item i on (i.codigo_item = did.item_docitemdet)
-        left join variacao v on (v.codigo_variacao = did.variacao_docitemdet)
-        left join acabamento a on (a.codigo_acabamento = did.acabamento_docitemdet)
-        left join motivo on (motivo.codigo_motivo = recolhimento_entrega.motivo_recent)
-    where did.autoinc_docitemdet = ${autoinc}
-        and docfat.entrega_docfat = 'N'
-        and recolhimento.tipo_rec = 1
+    let sql = ''
+        
+    if(tipo != 10){    
+        sql = (`  
+        select
+            docfat.codigo_docfat as "pedido",
+            recolhimento.autoinc_rec as "recolhimento",
+            recolhimento.tipo_rec as "tipo_rec",
+            docfat.cliente_docfat as "cod_cliente",
+            p.razaosocial_pessoa as "razao_cliente",
+            did.autoinc_docitemdet as "autoinc_pedido",
+            did.item_docitemdet as "cod_item",
+            i.descricao_item as "desc_item",
+            did.variacao_docitemdet as "cod_variacao",
+            v.descricao_variacao as "desc_variacao",
+            did.acabamento_docitemdet as "cod_acabamento",
+            a.descricao_acabamento as "desc_acabamento",
+            did.item_docitemdet ||'.'||did.variacao_docitemdet||'.'||did.acabamento_docitemdet as "cod_analitico",
+            recolhimento_entrega.qtdechapas_recent as "quantidade",
+            recolhimento_entrega.motivo_recent as "cod_motivo",
+            motivo.descricao_motivo as "desc_motivo"
+        from recolhimento_entrega
+            left join recolhimento on ( recolhimento.autoinc_rec = recolhimento_entrega.autoincrec_recent)
+            left join documento_item_detalhe did on (did.autoinc_docitemdet = recolhimento_entrega.ai_docitemdetalhe_recent)
+            left join documento_fatura docfat on (docfat.codigo_docfat = did.documento_docitemdet)
+            left join pessoa p on (p.codigo_pessoa = docfat.cliente_docfat)
+            left join item i on (i.codigo_item = did.item_docitemdet)
+            left join variacao v on (v.codigo_variacao = did.variacao_docitemdet)
+            left join acabamento a on (a.codigo_acabamento = did.acabamento_docitemdet)
+            left join motivo on (motivo.codigo_motivo = recolhimento_entrega.motivo_recent)
+        where did.autoinc_docitemdet = ${autoinc}
+            and docfat.entrega_docfat = 'N'
+            and recolhimento.tipo_rec = 1
+        `)
+    }else{
+        sql = (`  
+            select
+            deg.autoincdoc_docent as "pedido",
+            docfat.codigo_docfat as "recolhimento",
+            10 as "tipo_rec",
+            docfat.cliente_docfat as "cod_cliente",
+            p.razaosocial_pessoa as "razao_cliente",
+            did.autoinc_docitemdet as "autoinc_pedido",
+            did.item_docitemdet as "cod_item",
+            i.descricao_item as "desc_item",
+            did.variacao_docitemdet as "cod_variacao",
+            v.descricao_variacao as "desc_variacao",
+            did.acabamento_docitemdet as "cod_acabamento",
+            a.descricao_acabamento as "desc_acabamento",
+            did.item_docitemdet ||'.'||did.variacao_docitemdet||'.'||did.acabamento_docitemdet as "cod_analitico",
+            dcee.qtdechapas_docentdev as "quantidade",
+            dcee.motivo_docentdev as "cod_motivo",
+            motivo.descricao_motivo as "desc_motivo"
+        from documento_fatura docfat
+            left join documento_entrega_devcan dcee on (dcee.documento_docentdev = docfat.codigo_docfat)
+            left join documento_entrega deg on (deg.AUTOINC_DOCENT = dcee.AUTOINCDOCENT_DOCENTDEV)
+            left join CARGA_ITENS                     on (CARGA_ITENS.AUTOINC_CARITE = deg.CARGAITENS_DOCENT)
+            left join CARGA_DOCUMENTOS                on (CARGA_DOCUMENTOS.AUTOINC_CARDOC = CARGA_ITENS.AUTOINCCARDOC_CARITE)
+            left join DOCUMENTO_ITEM_DETALHE did          on (did.AUTOINC_DOCITEMDET = CARGA_ITENS.AUTOINCITEMDETDOC_CARITE)
+            left join pessoa p on (p.codigo_pessoa = docfat.cliente_docfat)
+            left join item i on (i.codigo_item = did.item_docitemdet)
+            left join variacao v on (v.codigo_variacao = did.variacao_docitemdet)
+            left join acabamento a on (a.codigo_acabamento = did.acabamento_docitemdet)
+            left join motivo on (motivo.codigo_motivo = dcee.motivo_docentdev)
+        where did.autoinc_docitemdet = ${autoinc}
+            and docfat.entrega_docfat = 'N'
+            and docfat.tipo_docfat = 1
+            and docfat.opcao_docfat = 4
+            and docfat.origementrega_docfat = 'S'
      `)
+    }
     
 
-   // console.log('sql consulta banco: ', sql)
+    console.log('sql consulta banco: ', sql)
     
     try {
         dados = await firebird.consultar(sql)
@@ -202,11 +347,11 @@ const findById = async(id) =>{
    
 }
 // Pesquisa WBI por  sua id. 
-const verificaItemRecolhimento = async(id) =>{
+const verificaItemRecolhimento = async(id,tipo) =>{
     try {
   
            const registro = await knex('item_recolhido_ld')
-                            .where('autoinc_pedido', id)
+                            .where({'autoinc_pedido': id, 'tipo_rec': tipo})
                             .select('autoinc_pedido')
                             .first()     
             return registro
@@ -217,11 +362,11 @@ const verificaItemRecolhimento = async(id) =>{
    
 }
 
-const buscaAutoIncRecolhimento = async(id) =>{
+const buscaAutoIncRecolhimento = async(id,tipo) =>{
     try {
   
            const registro = await knex('item_recolhido_ld')
-                            .where('recolhimento', id)
+                            .where({'recolhimento': id})
                             .select('autoinc_pedido')
                                
             return registro
@@ -327,4 +472,4 @@ const deletar = async(autoinc_pedido) =>{
 
 }
 
-module.exports = { findAllItemRecolhidos, findById, create, deletar, update, updateStatus, findByStatus, verificarStatus, consultaBanco, consultaRecolhimento, consultaOrdemCompra, consultaItemRecolhimento, verificaItemRecolhimento, buscaAutoIncRecolhimento}
+module.exports = {consultaMotivo, consultaItem, consultaAcabamento, consultaVariacao, findAllItemRecolhidos, findById, create, deletar, update, updateStatus, findByStatus, verificarStatus, consultaBanco, consultaRecolhimento, consultaOrdemCompra, consultaItemRecolhimento, verificaItemRecolhimento, buscaAutoIncRecolhimento}

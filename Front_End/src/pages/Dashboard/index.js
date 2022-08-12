@@ -1,4 +1,4 @@
-import React, { useContext, useState, useRef, useEffect } from "react";
+import React, { useContext, useState} from "react";
 import { Outlet } from "react-router-dom";
 import Cabecalho from "../../Components/Cabecalho";
 // import { useNavigate } from "react-router-dom";
@@ -6,10 +6,7 @@ import Cabecalho from "../../Components/Cabecalho";
 import { AuthContext } from '../../auth';
 import Logout from "../../Components/Logout";
 import Sidebar from "../../Components/Estruturas/Sidebar";
-
 import CardGaleria from "../../Components/Estruturas/CardGaleria";
-
-
 
 const Dashboard = () => {
     // let navigate = useNavigate();
@@ -40,16 +37,18 @@ const Dashboard = () => {
             </div>
             <div className="container-fluid body_dash  p-0">
                     <div className="row">
-                        <div className="col-sm-2 p-3">
+                        <div className="col-sm-2 p-0">
                         <Sidebar mostrarDiv={mostrarDiv} /> 
+                        
                         </div>
                         <div className="col-sm-10">
 
-                     
+                 
                     <div className="row ">
-                     {idDiv ? <CardGaleria id={idDiv} idMostrar = {idDiv}  />:null }        
+                     {idDiv ? <CardGaleria id={idDiv} idMostrar = {idDiv}  />:null }      
 
-                        <Outlet />
+                      <Outlet />
+                        
                     </div>
                     </div>
                     </div>             

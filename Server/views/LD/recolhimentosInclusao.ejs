@@ -34,14 +34,30 @@
               <div class=" col s12">
 
                 <div class="row">
-                    <div class="col-8">
-                        <label class="amber-text text-lighten-4 " >Pesquisar Recolhimento</label>
-                        <input type="text" id="codRecolhimento" class="amber-text text-lighten-4 " name="codRecolhimento">
-                        <input type="radio" id="tipo1" name="tipodocumento" value="recolhimento">
-                        <label for="tipo1">Recolhimento</label><br>
-                        <input type="radio" id="tipo2" name="tipodocumento" value="devolucao">
-                        <label for="tipo2">Devolução</label><br>
+                    <div class="col-12">
+                        <label class="amber-text text-lighten-4 " >Pesquisar Recolhimento ou Devolução</label>
+                        <input type="text" id="codRecolhimento" size="30" class="amber-text text-lighten-4 " style="width: 20%; text-align:center;" name="codRecolhimento">
                     </div>
+                    <div class="col-12">
+                        <form action="">
+
+                          <div class="subMenu ">
+                            <p class="flow-text center mg-4 ">
+                              <label class="z-depth-1  yellow-text text-lighten-3">
+                                <input type="radio"  id="tipoDocumento" name="tipoDocumento" value="recolhimento" checked/>
+                                <span style="width: 150px;">Recolhimento</span>
+                              </label>
+                              <label class="z-depth-1  yellow-text text-lighten-3">
+                                <input type="radio"  id="tipoDocumento" name="tipoDocumento" value="devolucao"/>
+                                <span style="width: 150px;">Devolução</span>
+                              </label>
+                            </p>
+                          </div>
+
+                        </form>  
+                    </div>
+                    </div>
+                    <div class="row">
                     <div class="col-2 ">
                         
                       <a class="btn-floating btn-large waves-effect waves-light cyan darken-4" onclick="pesquisarRecolhimento()" ><i class="material-icons">search</i></a>
@@ -61,14 +77,15 @@
                                 
                                 <thead id="cabecalhotbRecolhimento" name='cabecalhotbRecolhimento'>
                                     <th></th>
-                                    <th>Assistência</th>
+                                    <th>Documento</th>
                                     <th  nowrap="true">Código Item</th>
                                     <th>Descrição Item</th>
                                     <th>Variação</th>
                                     <th>Acabamento</th>
                                     <th>Quantidade</th>
-                                    <th  nowrap="true">Codigo Motivo</th>
-                                    <th  nowrap="true">Descrição Motivo</th>
+                                    <th  nowrap="true">Cod. Motivo</th>
+                                    <th  nowrap="true">Motivo</th>
+                                    <th  nowrap="true">Tipo</th>
                                 </thead>
                                  <tbody id="corpoTabela" name='corpoTabela'>
 
@@ -107,7 +124,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Cadastro Usuário:</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Cadastro de Item Avulso:</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -173,7 +190,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="ModalAlteracao">Alterar  Senha:</h5>
+            <h5 class="modal-title" id="ModalAlteracao">Cadastro de Item Avulso</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -182,31 +199,68 @@
               <div class="modal-body">
               
                   <div class="row">
-                    <div class="input-field col s12">
-                      <input type="hidden" name="idRecolhimentoAlterar" id="idRecolhimentoAlterar" value="">
-                      <!-- <i class="material-icons prefix">account_circle</i> -->
-                      <h3 id="recolhimentoAlterar" style="font-style: oblique;"></h3>
-                      <label class="active" for="recolhimento">Usuário</label>
+                    <div class="input-field col 3">
+                      <input type="text" name="itemAvulso" id="itemAvulso" value="">
+                      <label class="active" for="itemAvulso">Item</label>
+                    </div>
+                    <div class="input-field col-8">
+                      <label class=" " >Descrição Item</label>
+                      <input type="text" id="desc_itemAvulso" class=" " name="desc_itemAvulso">
+                 
                     </div>
                   </div>
                   <div class="row">
-                    <div class="input-field col s12">
-                      <i class="material-icons prefix">vpn_key</i>
-                      <input  id="novasenha" name="novasenha" type="password" class="validate">
-                      <label class="active" for="senha">Senha</label>
+                    <div class="input-field col-4">
+                      <label class=" " >Variação</label>
+                      <input type="text" id="variacao" class=" " name="variacao">
+                 
+                    </div>
+                    <div class="input-field col-8">
+                      <label class=" " >Descrição Variação</label>
+                      <input type="text" id="desc_variacao" class=" " name="desc_variacao">
+                 
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="input-field col-4">
+                      <label class=" " >Acabamento</label>
+                      <input type="text" id="acabamento" class=" " name="acabamento">
+                 
+                    </div>
+                    <div class="input-field col-8">
+                      <label class=" " >Descrição Acabamento</label>
+                      <input type="text" id="desc_acabamento" class=" " name="desc_acabamento">
+                 
                     </div>
                   </div>
                   
-
-                  <div class="row"><span style="margin-right: 10px;">Editar: </span>
-                    <div class="switch">
-                      <label>
-                          Não
-                          <input id="edicalAlteracaoRecolhimento" type="checkbox">
-                          <span class="lever"></span>
-                          Sim
-                      </label>
+                  <div class="row">
+                    <div class="input-field col-4">
+                      <label class=" " >Código Motivo </label>
+                      <input type="text" id="cod_motivo" class=" " name="cod_motivo">
+                 
+                    </div>
+                    <div class="input-field col-8">
+                      <label class=" " >Descrição Motivo</label>
+                      <input type="text" id="desc_motivo" class=" " name="desc_motivo">
+                 
+                    </div>
                   </div>
+                  <div class="row">
+                    <div class="input-field col-4">
+                      <label class=" " >Quantidade</label>
+                      <input type="text" id="quantidade" class=" " name="quantidade">
+                 
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="input-field col-12">
+                      <label class=" " >Observação</label>
+                      <input type="text" id="observacao"  class=" " name="observacao" rows="4" cols="50">
+                 
+                    </div>
+                  </div>
+
 
               </div>
             </form>
@@ -221,7 +275,7 @@
 
                 </div>
                 <div  class="col-3">
-                  <button  onclick="alteracaoRecolhimento()" type='button' class="btn btn-primary">Gravar </button>
+                  <button  onclick="incluirRecolhimentAvulso()" type='button' class="btn btn-primary">Gravar </button>
                 </div>
 
               </div>

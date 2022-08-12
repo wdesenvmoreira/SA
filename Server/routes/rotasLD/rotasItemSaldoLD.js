@@ -62,7 +62,7 @@ app.post('/LD/Saldo/api/ItemSaldo/Sair',async(req, res)=>{
     console.log('req.body: ',req.body.dados.quantidade)
     let cod_analitico = req.body.dados.cod_analitico
     let quantidade = req.body.dados.quantidade
-    console.log('quantidade: ', quantidade)
+    console.log('quantidade a ser estornada: ', quantidade)
     let retorno  = await ctrlSaldoItensLD.SaidaItem(cod_analitico, quantidade)
     console.log('Retorno da saída do item ', retorno)
 

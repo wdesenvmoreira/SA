@@ -1,6 +1,6 @@
 // const { consultaRecolhimento } = require("../../../controller/LD/controllerRecolhimentoLD")
 
-async function buscarRecolhimentoLD(busca){
+async function buscarRecolhimentoLD(busca, tipo){
     let dados
     
    
@@ -14,7 +14,7 @@ async function buscarRecolhimentoLD(busca){
         }
     }
     
-        dados = await axios.get(`http://${host}/LD/Recolhimentos/api/recolhimento/${busca}`)
+        dados = await axios.get(`http://${host}/LD/Recolhimentos/api/recolhimento/${busca}&${tipo}`)
         .then(response => {
            
             return response.data
@@ -77,7 +77,7 @@ async function buscarIDitemRecolhimentoLD(busca, codProduto){
         return dados
 }
 
-async function buscarDadosItemRecolhimentoLD(busca){
+async function buscarDadosItemRecolhimentoLD(busca, tipo){
     let dados
     
 
@@ -93,7 +93,7 @@ async function buscarDadosItemRecolhimentoLD(busca){
     }
 
     
-        dados = await axios.get(`http://${host}/LD/Recolhimentos/api/DadosItemRecolhimento/${busca}`)
+        dados = await axios.get(`http://${host}/LD/Recolhimentos/api/DadosItemRecolhimento/${busca}&${tipo}`)
         .then(response => {
            
             return response.data
@@ -102,13 +102,14 @@ async function buscarDadosItemRecolhimentoLD(busca){
             console.log(error)
             return error            
         })
-    
+        console.log('buscarDadosItemRecolhimento',busca, dados)
         return dados
 }
 
 
 async function verificaItensRecolhidos(busca){
-    dados = await axios.get(`http://${host}/LD/Recolhimentos/api/ItemRecolhimento/buscaAutoIncRecolhimento/${busca}`)
+    let tipo = document.getElementById(`inc+${busca}`)
+    dados = await axios.get(`http://${host}/LD/Recolhimentos/api/ItemRecolhimento/buscaAutoIncRecolhimento/${busca}&${tipo}`)
     .then(response => {
        
         return response.data
@@ -117,7 +118,7 @@ async function verificaItensRecolhidos(busca){
         console.log(error)
         return error            
     })
-
+console.log('verificaItensRecolhidos: ','item: ', busca, 'dados:',  dados)
     dados.forEach(recolhimento => {
         let btn = document.getElementById(`${recolhimento.autoinc_pedido}`)
         btn.setAttribute('class','btn btn-success')
@@ -155,10 +156,10 @@ async function buscarOCLD(busca){
         return dados
 }
 
-async function preencherTabelaRecolhimento(busca){
+async function preencherTabelaRecolhimento(busca, tipo){
     const tabelaRecolhimento = document.getElementById('tabelaRecolhimento')
     const corpoTabela = document.getElementById('corpoTabela')
-    let dados = await buscarRecolhimentoLD(busca)
+    let dados = await buscarRecolhimentoLD(busca, tipo)
     sairPainelRecolhimento()
     document.getElementById('captionTabela').innerHTML = ''
     
@@ -177,6 +178,7 @@ async function preencherTabelaRecolhimento(busca){
                             <td nowrap="true">${recolhimento.quantidade}</td>
                             <td nowrap="true">${recolhimento.cod_motivo}</td>
                             <td nowrap="true">${recolhimento.desc_motivo}</td>
+                            <td nowrap="true"><input type='hidden' id=inc${recolhimento.autoinc_pedido} value=${recolhimento.tipo_rec}>${recolhimento.tipo_rec==10?'<B>D</B>': '<B>R</B>'}</td>
                             `
                         
             corpoTabela.appendChild(tr)
@@ -188,7 +190,7 @@ async function preencherTabelaRecolhimento(busca){
     if(dados.length == 0){
 
         document.getElementById('tabelaRecolhimento').style.display = "none"
-        M.toast({html: `<span class='blue red-dark-4' >Recolhimento: ${busca} não localizado.</span>`, classes: 'rounded'});
+        M.toast({html: `<span class='blue red-dark-4' >Documento: ${busca} não localizado.</span>`, classes: 'rounded'});
     }
    verificaItensRecolhidos(busca)
 }
@@ -233,6 +235,7 @@ async function preencherTabelaItensRecolhidos(busca, codProduto){
                             <td class="z-depth-1 subIcon" id="col3${recolhimento.autoinc_pedido}" onclick="setarStatus(${recolhimento.autoinc_pedido}, 3, ie${recolhimento.autoinc_pedido})"><a ><i id="ie${recolhimento.autoinc_pedido}" class="material-icons ${corestoque}">      view_in_ar            </i></a></td>
                             <td nowrap="true">${recolhimento.recolhimento}</td>
                             <td nowrap="true" onmouseout="esconderInfoCli(${recolhimento.autoinc_pedido})"   onclick="mostrarInfCli(${recolhimento.autoinc_pedido})">${recolhimento.pedido}<p id="infoCli${recolhimento.autoinc_pedido}" class="z-depth-2 infocli" id="1">CLiente: ${recolhimento.cod_cliente} : ${recolhimento.razao_cliente}</p></td>
+                            <td nowrap="true"><input type="hidden" id=tp${recolhimento.pedido} value=${recolhimento.tipo_rec}>${recolhimento.tipo_rec==10?'<B>D</B>': '<B>R</B>'}</td>
                             <td nowrap="true">${recolhimento.cod_analitico}</td>
                             <td nowrap="true">${recolhimento.desc_item}</td>
                             <td nowrap="true">${recolhimento.desc_variacao}</td>
@@ -241,6 +244,7 @@ async function preencherTabelaItensRecolhidos(busca, codProduto){
                             <td nowrap="true">${recolhimento.desc_motivo}</td>
                             <td class="z-depth-1 subIcon" id="col4${recolhimento.autoinc_pedido}" onclick="setarStatus(${recolhimento.autoinc_pedido}, 4, id${recolhimento.autoinc_pedido})"><a ><i id="id${recolhimento.autoinc_pedido}" class="material-icons ${cordescarte}">remove_shopping_cart</i></a></td>
                             <td nowrap="true"><button type="button" class="btn btn-dark" onclick='deletarRecolhimento(${recolhimento.autoinc_pedido}, ${recolhimento.recolhimento})' id=${recolhimento.autoinc_pedido}><i class="material-icons">delete</i></button></td>
+                            
                             `
                         
             corpoTabela.appendChild(tr)
@@ -262,7 +266,7 @@ async function preencherTabelaItensRecolhidos(busca, codProduto){
     if(dados.length == 0){
 
         document.getElementById('tabelaRecolhimento').style.display = "none"
-        M.toast({html: `<span class='blue red-dark-4' >Recolhimento: ${busca} não localizado.</span>`, classes: 'rounded'});
+        M.toast({html: `<span class='blue red-dark-4' >Documento: ${busca} não localizado.</span>`, classes: 'rounded'});
     }
    
 }
@@ -333,13 +337,17 @@ function reselecao(id){
     let recolhimento 
     if (itens.length > 0 ){
         for (let i = 0; i < itens.length; i++) {
-            console.log('Verificando itens[i].id',itens[i].id)
-            let existe = await verificarItemCadastrado(itens[i].id)
+            let id = itens[i].id
+            console.log('id: ', id)
+            let tipo = document.getElementById('inc'+id).value
+            console.log('Verificando itens[i].id',itens[i].id, 'tipo: ', tipo)
+            let existe = await verificarItemCadastrado(itens[i].id,tipo)
            
             if(!existe)
             {
-                let retorno = await buscarDadosItemRecolhimentoLD(itens[i].id)
+                let retorno = await buscarDadosItemRecolhimentoLD(itens[i].id, tipo)
                 let dados = retorno[0]
+                console.log('dados: ', dados)
                 recolhimento = dados.recolhimento
                 await axios.post(`http://${host}/LD/Recolhimentos/Incluir`,dados)
                                         .then(response => {
@@ -353,18 +361,113 @@ function reselecao(id){
                                         })
                                         console.log('cadastrou')
             }else{ M.toast({html: `<span class='blue red-dark-4' >Sem novos Itens para incluir.`, classes: 'rounded'});}
-
+                    window.location.href = `http://${host}/LD/Recolhimentos`;
           } 
     }else{
         M.toast({html: `<span class='blue red-dark-4' >Nenhum item selecionado.`, classes: 'rounded'});
     }
     // pesquisarRecolhimento(recolhimento)
-    window.location.href = `http://${host}/LD/Recolhimentos`;
+    
     
 }
+async function  incluirRecolhimentAvulso(){
+    let item = document.getElementById('itemAvulso').value;
+    let desc_item = document.getElementById('desc_itemAvulso').value;
+    let variacao = document.getElementById('variacao').value;
+    let desc_variacao = document.getElementById('desc_variacao').value;
+    let acabamento = document.getElementById('acabamento').value;
+    let desc_acabamento = document.getElementById('desc_acabamento').value;
+    let cod_motivo = document.getElementById('cod_motivo').value;
+    let desc_motivo = document.getElementById('desc_motivo').value;
+    let quantidade = document.getElementById('quantidade').value;
+    let observacao = document.getElementById('observacao').value;
+    let validado = false;
+    
+    if(item == '' || item == undefined ||item.match(/^(\s)+$/)){
+        M.toast({html: `<span class='blue red-dark-4' >Informe um código de ITEM.`, classes: 'rounded'});
+    }else{
+            if(variacao == '' || variacao == undefined ||variacao.match(/^(\s)+$/)){
+                M.toast({html: `<span class='blue red-dark-4' >Informe um código de VARIAÇÃO`, classes: 'rounded'});
+            }else{
+                if(acabamento == '' || acabamento == undefined ||acabamento.match(/^(\s)+$/)){
+                    M.toast({html: `<span class='blue red-dark-4' >Informe um código de ACABAMENTO`, classes: 'rounded'});
+                }else{
+                    if(quantidade == 0 || quantidade == '' || quantidade == undefined ||quantidade.match(/^(\s)+$/)){
+                        M.toast({html: `<span class='blue red-dark-4' >Informe um valor para QUANTIDADE`, classes: 'rounded'});
+                    }else{
+                        validado = true
+                    } 
+                } 
+            } 
+        }
+    //Precisa validar item, variação, acabameno, motivo, quantidade
+    //Buscar as descrições de item, variação, acabamento, motivo
+    //Gerar o código analítico
 
-async function verificarItemCadastrado(id){
-    let autoinc = await axios.get(`http://${host}/LD/Recolhimentos/api/ItemRecolhimento/Verifica/${id}`)
+    if (validado){
+                let cod_analitico = item + '.' + variacao + '.' + acabamento;
+                let today = new Date();
+                let entrada = formatDate(today, 'mm/dd/aa');
+                console.log('entrada: ', entrada)
+                console.log("quantidade: ", quantidade)
+                let dados = {
+                    "pedido": 0,
+                    "recolhimento":0,
+                    "tipo_rec": 0,
+                    "cod_cliente":0,
+                    "razao_cliente":"Avulso",
+                    "autoinc_pedido": 0,
+                    "cod_item": item,
+                    "desc_item": desc_item,
+                    "cod_variacao":variacao,
+                    "desc_variacao": desc_variacao,
+                    "cod_acabamento": acabamento,
+                    "desc_acabamento": desc_acabamento,
+                    "cod_analitico": cod_analitico,
+                    "oc": "",
+                    "quantidade": quantidade,
+                    "cod_motivo": cod_motivo,
+                    "desc_motivo": desc_motivo,
+                    "observacao": observacao,
+                    "entrada": entrada,
+                    "status": 1
+                }
+                console.log('dados: ', dados)
+               
+                await axios.post(`http://${host}/LD/Recolhimentos/Incluir`,dados)
+                                        .then(response => {
+                                            if(response.data){
+                                                divMsg.innerText='Incluido com sucesso. '
+                                            }
+                                        })
+                                        .catch(error => {
+                                            console.log(error)
+                                            return error            
+                                        })
+                                        console.log('cadastrou')
+            
+                    //window.location.href = `http://${host}/LD/Recolhimentos`;
+          
+    }else{
+        M.toast({html: `<span class='blue red-dark-4' >Nenhum item selecionado.`, classes: 'rounded'});
+    }
+    // pesquisarRecolhimento(recolhimento)
+    
+    
+}
+function formatDate(date, format) {
+    const map = {
+        mm: date.getMonth() + 1,
+        dd: date.getDate(),
+        aa: date.getFullYear().toString().slice(-2),
+        aaaa: date.getFullYear()
+    }
+
+    return format.replace(/mm|dd|aa|aaaa/gi, matched => map[matched])
+}
+
+async function verificarItemCadastrado(id,tipo){
+    let autoinc = await axios.get(`http://${host}/LD/Recolhimentos/api/ItemRecolhimento/Verifica/${id}&${tipo}`)
                                     .then(response => {
                                     
                                         return response.data
@@ -432,17 +535,113 @@ gravar.addEventListener('click',async(event)=>{
         }
     
 })
+//Informa a descrição da Variação no campo variação. Pegando diretamente da base de dados da Tek.
+let edVariacao = document.getElementById('variacao')
+
+edVariacao.addEventListener('focusout',async(event)=>{
+    event.preventDefault()
+    let dados
+    let id = edVariacao.value;
+    console.log('id: ', id)
+    console.log('this.id', this.value)
+    if(id/1 || id==0 ){
+        
+        dados = await axios.get(`http://${host}/LD/variacao/${id}`);
+        console.log('retorno da variação: ', dados.data)
+        document.getElementById('desc_variacao').value = dados.data.DESCRICAO_VARIACAO;
+    }else{
+        document.getElementById('desc_variacao').value = '';
+        M.toast({html: `<span class='blue red-dark-4' >Código precisa ser um número válido.</span>`, classes: 'rounded'});
+        edVariacao.focus()
+        edVariacao.select()
+    }
+    
+})
+//Informa a descrição do acabamento no campo de descrição acabamento. Dados extraido diretamente do banco da tek 
+let edAcabamento = document.getElementById('acabamento')
+
+edAcabamento.addEventListener('focusout',async(event)=>{
+    event.preventDefault()
+    let dados
+    let id = edAcabamento.value;
+    if(id/1 || id==0 ){
+        console.log('id: ', id)
+        dados = await axios.get(`http://${host}/LD/acabamento/${id}`);
+        console.log('retorno da acabamento: ', dados.data)
+        document.getElementById('desc_acabamento').value = dados.data.DESCRICAO_ACABAMENTO;
+    }else{
+        document.getElementById('desc_acabamento').value = '';
+        M.toast({html: `<span class='blue red-dark-4' >Código precisa ser um número válido.</span>`, classes: 'rounded'});
+        edVariacao.focus()
+        edVariacao.select()
+    }
+    
+})
+
+//Informa a descrição do Item no campo de descrição Item. Dados extraido diretamente do banco da tek 
+let edItem= document.getElementById('itemAvulso')
+
+edItem.addEventListener('focusout',async(event)=>{
+    event.preventDefault()
+    let dados
+    let id = edItem.value;
+    if(id/1 || id==0 ){
+        console.log('id: ', id)
+        dados = await axios.get(`http://${host}/LD/item/${id}`);
+        console.log('retorno da Item: ', dados.data)
+        document.getElementById('desc_itemAvulso').value = dados.data.DESCRICAO_ITEM;
+    }else{
+        document.getElementById('desc_itemAvulso').value = '';
+        M.toast({html: `<span class='blue red-dark-4' >Código precisa ser um número válido.</span>`, classes: 'rounded'});
+        edVariacao.focus()
+        edVariacao.select()
+    }
+    
+})
+
+//Informa a descrição do Motivo no campo de descrição Motivo. Dados extraido diretamente do banco da tek 
+let edMotivo= document.getElementById('cod_motivo')
+
+edMotivo.addEventListener('focusout',async(event)=>{
+    event.preventDefault()
+    let dados
+    let id = edMotivo.value;
+    if(id/1 || id==0 ){
+        console.log('id: ', id)
+        dados = await axios.get(`http://${host}/LD/motivo/${id}`);
+        console.log('retorno da Motivo: ', dados.data)
+        document.getElementById('desc_motivo').value = dados.data.DESCRICAO_MOTIVO;
+    }else{
+        document.getElementById('desc_motivo').value = '';
+        M.toast({html: `<span class='blue red-dark-4' >Código precisa ser um número válido.</span>`, classes: 'rounded'});
+        edVariacao.focus()
+        edVariacao.select()
+    }
+    
+})
 
 //Verifica se o código de recolhimento foi informando. Caso tenha sido informado aciona a função busca com o código. 
  function pesquisarRecolhimento (){
     limpartabela()
     let codRecolhimento   = document.getElementById('codRecolhimento').value
+    let tiposDocumento = document.getElementsByName('tipoDocumento')
+    let tipo =''
+    
+    for (let index = 0; index < tiposDocumento.length; index++) {
+        
+        if(tiposDocumento[index].checked){
+            tipo = tiposDocumento[index].value
+        }
+        
+    }
+
     codRecolhimento = codRecolhimento.trim()
     if(codRecolhimento != '' && codRecolhimento != undefined ){
-        preencherTabelaRecolhimento(codRecolhimento)
+
+        preencherTabelaRecolhimento(codRecolhimento, tipo)
         
     }else{
-        M.toast({html: `<span class='blue red-4' >Código de recolhimento não informado. </span>`, classes: 'rounded'});
+        M.toast({html: `<span class='blue red-4' >Código de Documento não informado. </span>`, classes: 'rounded'});
         document.getElementById('tabelaRecolhimento').style.display = "none"
         document.getElementById('captionTabela').innerHTML = ''
     }

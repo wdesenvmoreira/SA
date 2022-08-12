@@ -2,7 +2,6 @@ import React from "react";
 import { Chart } from "react-google-charts";
 
 const IndLinha = ({data}) => {
-       
                   const options = {
                 chart: {
                     title: "Faturamento nos Ultimos 30 dias ",

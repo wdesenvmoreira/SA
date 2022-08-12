@@ -81,10 +81,8 @@ async function  setarWBIAlterar(id){
     formEdicaoWBI.height.value = dados.height
     formEdicaoWBI.dados.value = dados.dados
     formEdicaoWBI.options.value = dados.options
+    formEdicaoWBI.modulo.value = dados.modulo
     formEdicaoWBI.chartType.value = dados.chartType
-
-
-
 }
 
 function limpartabela(){
@@ -112,6 +110,7 @@ gravar.addEventListener('click',async(event)=>{
     let width = document.getElementById('width').value
     let height = document.getElementById('height').value
     let chartType = document.getElementById('chartType').value
+    let modulo = document.getElementById('modulo').value
     let options = document.getElementById('options').value
     
     let divMsg  = document.getElementById('divMsg')
@@ -124,13 +123,20 @@ gravar.addEventListener('click',async(event)=>{
     width = width.trim()
     height = height.trim()
     chartType = chartType.trim()
+    modulo = modulo.trim()
     options = options.trim()
 
     if(nome != '' && nome != undefined ){
         if(titulo != '' && titulo != undefined ){
                 //document.getElementById('formwbi').submit()
-                retorno = await axios.post(`http://${host}/wbi/incluir`,{nome, titulo, dados, width, height, chartType, options})
+                try {
+                     retorno = await axios.post(`http://${host}/wbi/incluir`,{nome, titulo, dados, width, height, chartType, options,modulo})
                 
+                } catch (error) {
+                    divMsg.innerText='[ctrlWBI!]. Erro ao cadastrar indicador: ', error;
+                }
+                
+               
                 if(retorno.data!='Duplicado'){
                     M.toast({html: `<span class='blue red-4' >Registro ${retorno.data[0]} incluído com sucesso</span>`, classes: 'rounded'});
                     limpartabela()
@@ -183,6 +189,7 @@ async function alteracaoWBI(){
       let dados   = formEdicaoWBI.dados.value 
       let options = formEdicaoWBI.options.value 
       let chartType = formEdicaoWBI.chartType.value 
+      let modulo    = formEdicaoWBI.modulo.value 
     
     let wbi ={
         id: id,
@@ -192,6 +199,7 @@ async function alteracaoWBI(){
        width : width,
        height : height,
        chartType: chartType,
+       modulo: modulo,
        options : options
     }
 

@@ -180,7 +180,7 @@ gravarsainda.addEventListener('click', async (event)=>{
            if(quantidade >=0){
                     
                 let dados = {'cod_analitico':codigoItem, 'quantidade': quantidade}
-
+                    console.debug(dados)
                     retorno = await axios.post(`http://${host}/LD/Saldo/api/ItemSaldo/Sair/`,{dados})
                     console.log('retorno.data:', retorno.data)
                     if(retorno.data){

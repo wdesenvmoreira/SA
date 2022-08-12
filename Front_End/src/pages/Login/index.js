@@ -35,37 +35,42 @@ const Login = () => {
             <Cabecalho title='Login' />
           
             <hr className='my-3'/>
+  
+              <div className="">
+                <div className='row '>
+         
+                  <div className='col-md-4 container'>
+                      <div className='row'> 
+                        <div class="d-flex flex-row">
+                            <div class="p-2 col-md-2">USUÁRIO:</div>
+                            <div class="p-2 col-md-6"><input className='LBFormLogin validate' id="username" name="username" type="text"  placeholder='Informe o Usuário' onChange={e => setUsername(e.target.value)}/></div>
+                            
+                        </div>
+                        <div class="d-flex flex-row">
+                              <div class="p-2 col-md-2">SENHA:</div>
+                              <div class="p-2 col-md-6">
+                                <input id="password" name="password" type="password" className='validate LBFormLogin' onChange={e => setPassword(e.target.value)}/>
+                              </div>
+                        </div>
+                      
 
-              <div className="Form-Group">
-                <div className='row'>
-                    <div className="input-field col-md-6">
-                      <span className='LBFormLogin' >USUÁRIO:</span>
-                    </div>
-                    <div className="input-field col-md-6">
-                      <input className='LBFormLogin validate' id="username" name="username" type="text"  placeholder='Informe o Usuário' onChange={e => setUsername(e.target.value)}/>
-                    </div>
-                </div>
-                <div className='row'>
-                   <div className="input-field col-md-3">
-                      <span className='LBFormLogin'>SENHA:</span>
-                    </div>
-                    <div className="input-field col-md-3">
-                      <input id="password" name="password" type="password" className='validate LBFormLogin' onChange={e => setPassword(e.target.value)}/>
-                   </div>
-                </div>
-                
-               
+                      </div>
+                  </div>
                  
+                    
+                </div>
+                <div className='row '>
+         
+                    <div className='col-md-4 container'>
+                      <button className="btn btn-primary col-md-4" type="button" onClick={acessar}>Acessar</button>
+                    </div>
+                </div>
 
               </div>
-              
-              <button className="btn btn-primary col-md-12" type="button" onClick={acessar}>Acessar</button>
-              
-
-              <hr className='my-3'/>
+<hr className='my-3'/>
 
               <Alert color='danger' className='text-center'>{message}</Alert>
-          {/* </form> */}
+          
 
 
         </div>
