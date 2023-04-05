@@ -14,6 +14,9 @@ const rotasLD= require('./rotasLD/')
 const rotasItemRecolhimentoLD = require('./rotasLD/rotasItemRecolhimentoLD')
 const rotasItemSaldoLD = require('./rotasLD/rotasItemSaldoLD')
 const rotasStatusLD= require('./rotasLD/rotasStatus')
+const rotasLaudoLD = require('./rotasLD/rotasLaudoLD')
+
+const rotasLS = require('./rotasLeito_Saldo')
 
 
 const jwt = require('jsonwebtoken');
@@ -44,6 +47,9 @@ const rotas = (app) =>{
    rotasItemRecolhimentoLD(app)
    rotasItemSaldoLD(app)
    rotasStatusLD(app)
+   rotasLaudoLD(app)
+   
+   rotasLS(app)
 
 }
 

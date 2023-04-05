@@ -201,7 +201,7 @@ async function preencherTabelaItensRecolhidos(busca, codProduto){
     let dados = await buscarIDitemRecolhimentoLD(busca,codProduto)
     sairPainelRecolhimento()
     document.getElementById('captionTabela').innerHTML = ''
-    
+    console.log('dados: ', dados)
     if(dados.length > 0){
     // document.getElementById('captionTabela').innerHTML = `<div>Recolhimento: ${dados[0].recolhimento}</div> Cliente: ${dados[0].cod_cliente} - ${dados[0].razao_cliente} `
 
@@ -230,6 +230,7 @@ async function preencherTabelaItensRecolhidos(busca, codProduto){
             const tr = document.createElement(`tr`)
             tr.setAttribute('id',recolhimento.pedido)
             tr.innerHTML = `
+                            <td class="z-depth-1 subIcon" id="col1${recolhimento.id}" onclick="laudo(${recolhimento.id})"><i id="il${recolhimento.id}" class="material-icons blue-text text-lighten-1">note_alt</i>${recolhimento.id}</td>
                             <td class="z-depth-1 subIcon" id="col1${recolhimento.autoinc_pedido}" onclick="setarStatus(${recolhimento.autoinc_pedido}, 1, ia${recolhimento.autoinc_pedido})"><i id="ia${recolhimento.autoinc_pedido}" class="material-icons ${coraguardo}">      pending               </i></td>
                             <td class="z-depth-1 subIcon" id="col2${recolhimento.autoinc_pedido}" onclick="setarStatus(${recolhimento.autoinc_pedido}, 2, ic${recolhimento.autoinc_pedido})"><a ><i id="ic${recolhimento.autoinc_pedido}" class="material-icons ${corconcertando}" > published_with_changes</i></a></td>
                             <td class="z-depth-1 subIcon" id="col3${recolhimento.autoinc_pedido}" onclick="setarStatus(${recolhimento.autoinc_pedido}, 3, ie${recolhimento.autoinc_pedido})"><a ><i id="ie${recolhimento.autoinc_pedido}" class="material-icons ${corestoque}">      view_in_ar            </i></a></td>
@@ -269,6 +270,9 @@ async function preencherTabelaItensRecolhidos(busca, codProduto){
         M.toast({html: `<span class='blue red-dark-4' >Documento: ${busca} não localizado.</span>`, classes: 'rounded'});
     }
    
+}
+function laudo(id){
+    console.log(id)
 }
 function mostrarInfCli(id){
     document.getElementById(`infoCli${id}`).style.display = "block"

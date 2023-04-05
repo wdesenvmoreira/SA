@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="/css/materialize.min.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css.map"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="/css/home.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="/css/comum.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="/css/ld.css"  media="screen,projection"/>
+   
+    <style>
+     .pai {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            
+            max-width: 600px;
+            width: calc(100% - 40px);
+            
+            padding: 20px;
+            
+            border-radius: 10px;
+            
+            background-color: #f5f5f5;
+            z-index: 1;
+
+            display: block;
+          }
+
+          .row {
+              display:flex;
+              flex-direction: row;
+              justify-content: space-between;
+          }
+
+          .colunas {
+              display:inline-flex;
+              flex-direction: column;
+          }
+    </style>
+
+<style>
+ 
+  .contem {
+    max-width: 500px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px #888888;
+  }
+
+  h1 {
+    margin-bottom: 20px;
+  }
+
+  /* input[type="text"] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    font-size: 16px;
+  } */
+
+  button[type="button"]
+   {
+    width: 80%;
+    height: 6em;
+    background-color: #cf9b3a;
+    color: #ffffff;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+  }
+
+  button[type="button"]:hover{
+    background-color: #45a054;
+  }
+  .gridpainel{
+    display: inline;
+    border: solid;
+    border-radius: 0.5;
+    border: 2px, solid;
+    padding: 4px;
+    margin: 6px;
+
+    display: flex;
+  justify-content: center;
+  align-items: center;
+  }
+
+  .painel_Total{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.centralizar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#pnAcesso{
+  display: block;
+}
+#pnLeituras{
+  display: none;
+}
+#pnResumo{
+  display: none;
+}
+#pnLeitor{
+  display: none;
+}
+
+
+</style>
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  </head>
+  <body class="blue-grey darken-3">
+
+
+    <div class="container mx-auto text-center pai" id="pnAcesso">
+      <h1>Leitura de Etiquetas para Estoque</h1>
+      <form>
+        <div class="form-group">
+          <label >Empresa:</label>
+          <input type="text" class="form-control" id="empresaAcesso" name="empresaAcesso">
+          
+        </div>
+        <div class="form-group">
+          <label for="lote">Lote:</label>
+          <input type="text" class="form-control" id="lote" name="lote">
+        </div>
+
+        <button type="button" class="btn btn-primary mx-auto">Acesso</button>
+        <button type="button" class="btn btn-secondary mx-auto">Cancelar</button>
+      </form>
+    </div>
+
+
+    <div class="container mx-auto text-center pai " id="pnLeituras">
+      <h2>Leitura(s) do Lote: <sapn id="loteLeitura">000</sapn></h2>
+      <div class="card-panel">
+          <!-- <div class="form-group"> -->
+            <button class="btn">1 - Lote 0000 Data: 00/00/0000</button>
+          <!-- </div> -->
+      </div>
+      <div class="row">
+        <div class="col s8">
+          <button type="button" class="btn btn-primary mx-auto">Novo</button>
+          <button type="button" class="btn btn-secondary mx-auto">Cancelar</button>
+        </div>
+      </div>  
+        
+
+    </div>
+
+    <div class="container mx-auto text-center pai " id="pnResumo">
+      <h1>RESUMO DE LEITURA</h1>
+      <h2>Lote: <sapn id="reusmolote">000</sapn></h2>
+      <div class="form-group">
+        <label for="empresa">Empresa:</label>
+        <span id="empresa" name="empresa">4 - Chirico Chirico</span>
+      </div>
+      <div class="row">
+        <!-- <div class="col s12 colunas"> -->
+          <div class="card-panel container painel_Total">
+            <div class="col s3 gridpainel">
+              <span > E:</span>
+                <span  id="totalEtqResumo" name="totalEtqResumo" class="">0000</span>
+             </div>
+             <div class="col s3  gridpainel ">
+              <span >R:</span>
+              <span id="totalRealizadasResumo" name="totalRealizadasResumo" class="">0000</span>
+            </div>
+            <div class="col s3  gridpainel ">
+              <span >P:</span>
+              <span id="totalPendenteResumo" name="totalPendenteResumo" class="">0000</span>
+            </div>  
+            
+          </div>
+        <!-- </div> -->
+      </div>
+      <div class="row">
+        <div class="col s12 colunas">
+          <div class="card-panel ">
+            <div>Arquivo de Entrada no Estoque</div>
+            <div>Entrada no Estoque Realizada</div>
+          </div>
+        </div>  
+      </div>
+      <div class="row">
+        <div class="col s6">
+          <button type="button" class="btn btn-primary mx-auto container">Gerar Entrada</button>
+          
+        </div>       
+         <div class="col s6">
+          
+          <button type="button" class="btn btn-secondary mx-auto">Cancelar</button>
+        </div>
+      </div>  
+        
+
+    </div>
+  
+  
+
+
+
+<div class="contem " id="pnLeitor">
+  <div class="row">
+    <div class="col s6 ">
+      <!-- <div class="form-group"> -->
+        <label >Código:</label>
+         <span  id="codigo" name="codigo">0000</span>
+       
+      <!-- </div> -->
+    </div>
+    <div class="col s6 ">
+      <!-- <div class="form-group"> -->
+        <label >Usuário:</label>
+        <span  id="usuario" name="usuario">Usuario</span>
+      <!-- </div> -->
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="col s12">
+      <div class="">
+        <label >Empresa:</label>
+        <span  id="empresa" name="empresa" class="">Empresa</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col s6">
+      <div class="">
+        <label for="lote">Lote:</label>
+        <label for="lote" id="lote" name="lote" class="form-control">0000</label>
+      </div>
+    </div>
+
+    <div class="col s6">
+      <div class='form-group'>
+        <label for='data'>Data:</label>
+        <input type='date' id='data' name='data' value='<%= new Date().toISOString().substr(0,10) %>' class='form-control'>
+      </div>
+    </div>
+  </div>
+
+
+<div class="row">
+  <div class="col s12">
+    <div class="card-panel">
+      <div class="input-field">
+        <label for="label7">Código de Barras: </label>
+        <input id="label7" type="text">
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <!-- <div class="col s12 colunas"> -->
+    <div class="card-panel container painel_Total">
+      <div class="col s3 gridpainel">
+        <span > E:</span>
+          <span  id="totalEtqResumo" name="totalEtqResumo" class="">0000</span>
+       </div>
+       <div class="col s3  gridpainel ">
+        <span >R:</span>
+        <span id="totalRealizadasResumo" name="totalRealizadasResumo" class="">0000</span>
+      </div>
+      <div class="col s3  gridpainel ">
+        <span >P:</span>
+        <span id="totalPendenteResumo" name="totalPendenteResumo" class="">0000</span>
+      </div>  
+      
+    </div>
+  <!-- </div> -->
+</div>
+<div class="row">
+   <div class="col s12">
+      <div class="card-panel"style="margin: 1px; padding: 4px;">
+        <span class="card-title">Realizadas</span>
+        <div class="card" > 
+          <table class="striped " style="display: block; font-size: 4px;">
+            <thead>
+              <tr>
+                  <th>Sequência</th>
+                  <th>Volume</th>
+                  <!-- <th>Descrição</th> -->
+                  <!-- <th>Cod. Barras</th> -->
+              </tr>
+            </thead>
+    
+            <tbody>
+              <tr>
+                <td>376819</td>               
+                <td>2758.268.3</td>
+                <!-- <td>VOL AVALON 90 DIREITO BRAÇO 25</td>
+                <td>00003768190002758000268000000039</td> -->
+              </tr>
+              <tr>
+                <td>376819</td>               
+                <td>2758.268.3</td>
+                <!-- <td>VOL AVALON 90 DIREITO BRAÇO 25</td>
+                <td>00003768190002758000268000000039</td> -->
+              </tr>              <tr>
+                <td>376819</td>               
+                <td>2758.268.3</td>
+                <!-- <td>VOL AVALON 90 DIREITO BRAÇO 25</td>
+                <td>00003768190002758000268000000039</td> -->
+              </tr>              <tr>
+                <td>376819</td>               
+                <td>2758.268.3</td>
+                <!-- <td>VOL AVALON 90 DIREITO BRAÇO 25</td>
+                <td>00003768190002758000268000000039</td> -->
+              </tr>              <tr>
+                <td>376819</td>               
+                <td>2758.268.3</td>
+                <!-- <td>VOL AVALON 90 DIREITO BRAÇO 25</td>
+                <td>00003768190002758000268000000039</td> -->
+              </tr>              <tr>
+                <td>376819</td>               
+                <td>2758.268.3</td>
+                <!-- <td>VOL AVALON 90 DIREITO BRAÇO 25</td>
+                <td>00003768190002758000268000000039</td> -->
+              </tr>
+            </tbody>
+          </table>
+          
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="row">
+   <div class="card-panel container painel_Total">
+      <div class="col s6 centralizar">
+          <div class="centralizar">
+              <button  id="btFinalizar" name="btFinalizar" class="btn btn-primary mx-auto" value="Finalizar">Finalizar</button>    
+          </div> 
+      </div>
+ 
+      <div class="col s6 centralizar">
+          <div class="centralizar">
+              <button  id="btCancelar" name="btCancelar" class="btn btn-primary mx-auto" value="Cancelar">Cancelar</button>
+          </div>
+      </div>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="col s12">
+     <div class="card-panel"style="margin: 1px; padding: 4px;">
+       <span class="card-title container">Pendentes</span>
+       <div class="card" > 
+         <table class="striped " style="display: block; font-size: 4px;">
+           <thead>
+             <tr>
+                 <th>Sequência</th>
+                 <th>Volume</th>
+                 <!-- <th>Descrição</th> -->
+                 <!-- <th>Cod. Barras</th> -->
+             </tr>
+           </thead>
+   
+           <tbody>
+             <tr>
+               <td>376819</td>               
+               <td>2758.268.3</td>
+               <!-- <td>VOL AVALON 90 DIREITO BRAÇO 25</td>
+               <td>00003768190002758000268000000039</td> -->
+             </tr>
+             <tr>
+               <td>376819</td>               
+               <td>2758.268.3</td>
+               <!-- <td>VOL AVALON 90 DIREITO BRAÇO 25</td>
+               <td>00003768190002758000268000000039</td> -->
+             </tr>              <tr>
+               <td>376819</td>               
+               <td>2758.268.3</td>
+               <!-- <td>VOL AVALON 90 DIREITO BRAÇO 25</td>
+               <td>00003768190002758000268000000039</td> -->
+             </tr>              <tr>
+               <td>376819</td>               
+               <td>2758.268.3</td>
+               <!-- <td>VOL AVALON 90 DIREITO BRAÇO 25</td>
+               <td>00003768190002758000268000000039</td> -->
+             </tr>              <tr>
+               <td>376819</td>               
+               <td>2758.268.3</td>
+               <!-- <td>VOL AVALON 90 DIREITO BRAÇO 25</td>
+               <td>00003768190002758000268000000039</td> -->
+             </tr>              <tr>
+               <td>376819</td>               
+               <td>2758.268.3</td>
+               <!-- <td>VOL AVALON 90 DIREITO BRAÇO 25</td>
+               <td>00003768190002758000268000000039</td> -->
+             </tr>
+           </tbody>
+         </table>
+         
+       </div>
+     </div>
+   </div>
+</div>
+<div class="row">
+  
+</div>
+   
+    
+
+
+
+</div>
+  
+    
+    
+    </body>
+    </html>
+    
+  
+
+    <!--JavaScript at end of body for optimized loading-->
+    <script type="text/javascript" src="/js/materialize.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.slim.min.js"  ></script>
+    <script type="text/javascript" src="/js/popper.min.js"  ></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js" ></script>
+    <script type="text/javascript" src="/js/axios.js"></script>
+    <script type="text/javascript" src="/js/LD/controleRecolhimentoLD.js"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script>
+        $(document).ready(function() {
+          M.updateTextFields();
+        });
+    </script>
+  </body>
+</html>

@@ -290,7 +290,7 @@ const findAllItemRecolhidos = async(rec, codProduto, sstatus) =>{
         console.log('infbusca no controller: ', rec, codProduto)
         let registro
         if(rec == 'V' && codProduto == 'V'){
-           registro =  await knex.select('pedido',' recolhimento', 'tipo_rec', 'cod_cliente', 'razao_cliente', 'autoinc_pedido', 'cod_item', 'desc_item', 'cod_variacao', 'desc_variacao', 'cod_acabamento', 'desc_acabamento', 'cod_analitico', 'quantidade', 'cod_motivo', 'desc_motivo', 'status','status.descricao').from('item_recolhido_ld')
+           registro =  await knex.select('item_recolhido_ld.id','pedido',' recolhimento', 'tipo_rec', 'cod_cliente', 'razao_cliente', 'autoinc_pedido', 'cod_item', 'desc_item', 'cod_variacao', 'desc_variacao', 'cod_acabamento', 'desc_acabamento', 'cod_analitico', 'quantidade', 'cod_motivo', 'desc_motivo', 'status','status.descricao','entrada').from('item_recolhido_ld')
             .leftJoin('status', 'item_recolhido_ld.status', 'status.id')
             .where('cod_item', '>', 0)
             .whereIn('status.id',status)
@@ -298,7 +298,7 @@ const findAllItemRecolhidos = async(rec, codProduto, sstatus) =>{
           
         }
         if(rec == 'V' && codProduto != 'V'){
-           registro =  await knex.select('pedido',' recolhimento', 'tipo_rec', 'cod_cliente', 'razao_cliente', 'autoinc_pedido', 'cod_item', 'desc_item', 'cod_variacao', 'desc_variacao', 'cod_acabamento', 'desc_acabamento', 'cod_analitico', 'quantidade', 'cod_motivo', 'desc_motivo', 'status','status.descricao').from('item_recolhido_ld')
+           registro =  await knex.select('item_recolhido_ld.id','pedido',' recolhimento', 'tipo_rec', 'cod_cliente', 'razao_cliente', 'autoinc_pedido', 'cod_item', 'desc_item', 'cod_variacao', 'desc_variacao', 'cod_acabamento', 'desc_acabamento', 'cod_analitico', 'quantidade', 'cod_motivo', 'desc_motivo', 'status','status.descricao','entrada').from('item_recolhido_ld')
             .leftJoin('status', 'item_recolhido_ld.status', 'status.id')
             .where('cod_item', codProduto)
             .whereIn('status.id',status)
@@ -308,7 +308,7 @@ const findAllItemRecolhidos = async(rec, codProduto, sstatus) =>{
         }
         if(rec != 'V' && codProduto == 'V'){
 
-            registro =  await knex.select('pedido',' recolhimento', 'tipo_rec', 'cod_cliente', 'razao_cliente', 'autoinc_pedido', 'cod_item', 'desc_item', 'cod_variacao', 'desc_variacao', 'cod_acabamento', 'desc_acabamento', 'cod_analitico', 'quantidade', 'cod_motivo', 'desc_motivo', 'status','status.descricao').from('item_recolhido_ld')
+            registro =  await knex.select('item_recolhido_ld.id','pedido',' recolhimento', 'tipo_rec', 'cod_cliente', 'razao_cliente', 'autoinc_pedido', 'cod_item', 'desc_item', 'cod_variacao', 'desc_variacao', 'cod_acabamento', 'desc_acabamento', 'cod_analitico', 'quantidade', 'cod_motivo', 'desc_motivo', 'status','status.descricao','entrada').from('item_recolhido_ld')
             .leftJoin('status', 'item_recolhido_ld.status', 'status.id')
             .where('recolhimento', rec)
             .whereIn('status.id',status)
@@ -317,7 +317,7 @@ const findAllItemRecolhidos = async(rec, codProduto, sstatus) =>{
         }
         if(rec != 'V' && codProduto != 'V'){
 
-            registro =  await knex.select('pedido',' recolhimento', 'tipo_rec', 'cod_cliente', 'razao_cliente', 'autoinc_pedido', 'cod_item', 'desc_item', 'cod_variacao', 'desc_variacao', 'cod_acabamento', 'desc_acabamento', 'cod_analitico', 'quantidade', 'cod_motivo', 'desc_motivo', 'status','status.descricao').from('item_recolhido_ld')
+            registro =  await knex.select('item_recolhido_ld.id','pedido',' recolhimento', 'tipo_rec', 'cod_cliente', 'razao_cliente', 'autoinc_pedido', 'cod_item', 'desc_item', 'cod_variacao', 'desc_variacao', 'cod_acabamento', 'desc_acabamento', 'cod_analitico', 'quantidade', 'cod_motivo', 'desc_motivo', 'status','status.descricao','entrada').from('item_recolhido_ld')
             .leftJoin('status', 'item_recolhido_ld.status', 'status.id')
             .where({recolhimento: rec, cod_item: codProduto})
             .whereIn('status.id',status)

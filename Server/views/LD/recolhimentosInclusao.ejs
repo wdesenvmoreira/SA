@@ -119,74 +119,10 @@
 
     <!-- Modals -->
 
-    <!-- Formulario Inclusao -->
-    <div class="modal fade painelForm" id="modalIncluir" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Cadastro de Item Avulso:</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-            <form id="formRecolhimento" name="formRecolhimento" action="/Recolhimento/incluir" method="POST">
-              <div class="modal-body">
-              
-                  <div class="row">
-                    <div class="input-field col s12">
-                      <i class="material-icons prefix">account_circle</i>
-                      <input  id="recolhimento" name="recolhimento" type="text" class="validate">
-                      <label class="active" for="recolhimento">Usuário</label>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="input-field col s12">
-                      <i class="material-icons prefix">vpn_key</i>
-                      <input  id="senha" name="senha" type="password" class="validate">
-                      <label class="active" for="senha">Senha</label>
-                    </div>
-                  </div>
-                  
 
-                  <div class="row">
-                    <div class="switch">
-                      <label>
-                          Não
-                          <input id="edicao" type="checkbox">
-                          <span class="lever"></span>
-                          Sim
-                      </label>
-                  </div>
-
-              </div>
-            </form>
-            <div class="modal-footer">
-              <div class="row container">
-                  <div  class="col-6 center-align"> 
-                    <span id="divMsg" class="flow-text deep-orange-text text-darken-4"></span>
-                </div>
-                <div class="col-3">
-                
-                  <button type="button" name="segundo" id="segundo" data-dismiss="modal" class="close btn btn-secondary" >Sair</button>
-
-                </div>
-                <div  class="col-3">
-                  <button id="gravar" type='button' class="btn btn-primary">Gravar </button>
-                </div>
-
-              </div>
-              
-            
-              
-            </div>
-          
-        </div>
-      </div>
-    </div>
-  </div>
     
     <!-- Formulario Item Avulso -->
-    <div class="modal fade painelForm" id="modalAvulso" tabindex="-1" role="dialog" aria-labelledby="modalAvulso" aria-hidden="true">
+    <div class="modal fade  bd-example-modal-lg" id="modalAvulso" tabindex="-1" role="dialog" aria-labelledby="modalAvulso" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">

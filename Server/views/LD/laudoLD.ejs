@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="/css/materialize.min.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css.map"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="/css/home.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="/css/comum.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="/css/laudo.css"  media="screen,projection"/>
+   
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  </head>
+
+  <body class=" blue-grey darken-3 ">
+<div class="container center">
+    <div class="row m-5">
+        <div class="col-4 center" > <img width="100" height="100" src="/img/Itens.png"> </div>
+        <div class="col-4 amber-text text-lighten-4 "><h1>LAUDO LD</h1></div>
+        <div class="col-2">
+          <ul class="list-group list-group-horizontal">
+            <li class="list-group-item blue-grey darken-3"><a href="/principal"><i class="material-icons">home</i></a></li>
+            <li class="list-group-item blue-grey darken-3"><a href="/LD"><i class="material-icons">arrow_back</i></a></li>
+           
+          </ul>          
+        </div>
+       
+    </div>
+    <div class="row container center">
+
+                    <div class="col-4 ">
+                        <label class="amber-text text-lighten-4 " >CÓDIGO</label>
+                        <input type="text" id="codControle" class="amber-text text-lighten-4 " name="codControle">
+                    </div>
+                    <div class="col-2 ">
+                        
+                      <a class="btn-floating btn-large waves-effect waves-light cyan darken-4" onclick="pesquisarItensRecolhimento()" ><i class="material-icons">search</i></a>
+
+                  </div>
+                  <div class="col-2 ">
+                        
+                    <a class="btn btn-outline-success" onclick=""  href="/LD/Laudo/Avarias">Avarias</a>
+                </div>
+                <div class="col-2 ">
+                    <a class="btn btn-outline-success" onclick=""  href="/LD/Laudo/Condicoes">Condições</a>
+
+                </div>
+                  
+
+    </div>
+
+    <div class="row container white center"> 
+       <div class=" formularioLaudo container  ">
+            <div class="row cabecalhoLaudo container text-center">
+                <div class="col-12">
+                    RELATÓRIO DE ASSISTÊNCIA TÉCNICA
+                </div>
+                
+
+            </div>
+
+            <div class="row subCabecalhoLaudo">
+                <div class="col-4">
+                    <div class="row">
+                        <div class="col-12">
+                            Tipo de Operação:
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            Recebido em: 
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="row">
+                        <div class="col-12">Recolhimento ou Devolução</div>
+                        
+                    </div>
+                    <div class="row">
+                        <div class="col-12">DD/MM/AAAA</div>
+                        
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="row">
+                        <div class="col-12">
+                            Nº Controle: 0000
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-2 text-right">CLIENTE:</div>
+                <div class="col-10 text-left" > Dados do cliente </div>
+                 
+            </div>
+
+            <div class="row">
+                <div class="col-2 text-right">PRODUTO:</div>
+                <div class="col-10 text-left" > Código analitico e nome do Item</div>
+                
+            </div>
+
+            <div class="row">
+                <div class="col-12">Condições de Recebimento dos Produtos para Assistência Técnica</div>
+                
+            </div>
+
+            <div class="row">
+                <div class="container ">
+                    <form action="">
+
+                      <div class="subMenu ">
+                        <p class="flow-text center mg-4 ">
+                          <label class="z-depth-1  yellow-text text-lighten-3">
+                            <input type="checkbox" checked="checked" id="st_aguardando" />
+                            <span>Sem Embalagem</span>
+                          </label>
+                    
+                          <label class="z-depth-1 green-text text-accent-3">
+                            <input type="checkbox" checked="checked" id="st_concertando" />
+                            <span>Diferente Tonalidade</span>
+                          </label>
+                      
+
+                          <label class="z-depth-1 brown-text text-lighten-2">
+                            <input type="checkbox"  id="st_emestoque"/>
+                            <span>Usado / Sujo</span>
+                          </label>
+                          
+                          <label class="z-depth-1 orange-text text-darken-1">
+                              <input type="checkbox"  id="st_descartado"/>
+                              <span>Sem Braço</span>
+                          
+                          </label>
+                        <p class="flow-text center mg-4 ">
+                        </p>
+                          <label class="z-depth-1 orange-text text-darken-1">
+                            <input type="checkbox"  id="st_descartado"/>
+                            <span>Sem Rinheira</span>
+                        
+                        </label>
+
+                        <label class="z-depth-1 orange-text text-darken-1">
+                            <input type="checkbox"  id="st_descartado"/>
+                            <span>Sem Catraca</span>
+                        
+                        </label>
+
+                        <label class="z-depth-1 orange-text text-darken-1">
+                            <input type="checkbox"  id="st_descartado"/>
+                            <span>Módulo Mesmo Lado</span>
+                        
+                        </label>
+
+                        <label class="z-depth-1 orange-text text-darken-1">
+                            <input type="checkbox"  id="st_descartado"/>
+                            <span>Sem Kit Ferragem</span>
+                        
+                        </label>
+                      </div>
+                        
+                    </form>
+                </div> 
+            </div>
+
+            <div class="row">
+                <div class="col-12">AVARIAS APRESENTADAS NO PRODUTO</div>
+                
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <table class="table-striped highlight table-hover responsive-table centered tbRecolhimento" style="display: block ;">
+                        <tr>
+                            <td></td>
+                            <td>Falhas Costura</td>
+                            <td>Tec. Rasgado</td>
+                            <td>Ralado de Quina</td>
+                            <td>Tec. Manchado</td>
+                            <td>Mancha de Cola</td>
+                            <td>Tec. Frouxo</td>
+                            <td>Mad. Quebrada</td>
+                            <td>Murcho</td>
+                            <td>Vazando Fibras</td>
+                            <td>Mofado</td>
+                        </tr>
+                        <tr>
+                            <td>ASSENTO</td>
+                            <td onclick="checarAvaria('','ck1')"> <i class="material-icons prefix" id="ck1">check_box_outline_blank</i></td>
+                            <td> <i class="material-icons prefix">check</i></td>
+                            <td>  <i class="material-icons prefix">check_box_outline_blank</i></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>BRAÇO</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>CAIXA</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>CATRACA</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">LAUDO DO SETOR DE QUALIDADE / ASSISTÊNCIA TÉCNICA</div>
+                
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                 CONCERTO: <button>Iniciar/Finalizar</button>Início: <span>dd/mm/aa : hora<span>||</span></span>FIm: <span>dd/mm/aa : hora</span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">ETIQUETA</div>
+                
+            </div>
+
+            <div class="row">
+                AQUI ETIQUETA vOL1
+            </div>
+            <div class="row">
+                AQUI ETIQUETA vOL2
+            </div>
+
+
+       </div>                     
+                       
+    </div>                  
+
+        
+    </div>
+    
+    <!-- Modals -->
+
+    <!-- Formulario Inclusao Avarias-->
+    <div class="modal fade painelForm" id="modalAvarias" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Avarias em Produtos</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+            <form id="formItemSaida" name="formItemSaida" action="/api/laudo/avarias" method="POST">
+              <div class="modal-body">
+              
+                  <div class="row">
+                    <div class="input-field col s6" style="align-items: flex-end;">
+                      <i class="material-icons prefix">weekend</i>
+                      <span  id="item" name="item" type="text" class="validate"></span>
+                      <label class="active" for="item"><span id="itemSaida" ></span></label>
+                    </div>
+                  </div>
+                  <div class="row">
+                      <div class="input-field col-6" style="align-items: flex-start;">
+                         Avaria: <input  id="inc_avaria" name="inc_avaria" type="text" class="validate">
+                      
+                    </div>
+                  </div>
+                  
+               
+              </div>
+            </form>
+            <div class="modal-footer">
+              <div class="row container">
+      
+                <div class="col-3">
+                
+                  <button type="button" name="segundo" id="segundo" data-dismiss="modal" class="close btn btn-secondary" >Sair</button>
+
+                </div>
+                <div  class="col-3">
+                  <button id="gravarSaidaEstoque" type='button' class="btn btn-primary">Gravar </button>
+                </div>
+                <div  class="col-6 "> 
+                  <span id="divMsg" class="flow-text deep-orange-text text-darken-4"></span>
+              </div>
+              </div>
+              
+            
+              
+            </div>
+          
+        </div>
+      </div>
+    </div>
+
+     <!-- Formulario Inclusao -->
+     <div class="modal fade painelForm" id="modalCondicoes" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Condições de Recebimentos </h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+              <form id="formItemSaida" name="formItemSaida" action="/api/saldo/saida" method="POST">
+                <div class="modal-body">
+                
+                    <div class="row">
+                      <div class="input-field col s6" style="align-items: flex-end;">
+                        <i class="material-icons prefix">weekend</i>
+                        <span  id="item" name="item" type="text" class="validate"></span>>
+                        <label class="active" for="item"><span id="itemSaida" ></span></label>
+                      </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s6" style="align-items: flex-start;">
+                           Disponível: <label><h1 id="disponivel" ></h1></label>
+                        </div>
+                        <div class="input-field col s6" style="align-items: flex-start;">
+                          <input type="hidden" id="qtdDisponivel" value="">
+                          <input type="hidden" id="itemSaldo" value="">
+                           Quantidade Saida: <input  id="quantidade" name="quantidade" type="text" class="validate">
+                        
+                      </div>
+                    </div>
+                    
+                 
+                </div>
+              </form>
+              <div class="modal-footer">
+                <div class="row container">
+        
+                  <div class="col-3">
+                  
+                    <button type="button" name="segundo" id="segundo" data-dismiss="modal" class="close btn btn-secondary" >Sair</button>
+  
+                  </div>
+                  <div  class="col-3">
+                    <button id="gravarSaidaEstoque" type='button' class="btn btn-primary">Gravar </button>
+                  </div>
+                  <div  class="col-6 "> 
+                    <span id="divMsg" class="flow-text deep-orange-text text-darken-4"></span>
+                </div>
+                </div>
+                
+              
+                
+              </div>
+            
+          </div>
+        </div>
+      </div>
+  <!-- </div> -->
+
+    <!-- Formulario Alteração -->
+    <div class="modal fade painelForm" id="modalAlterar" tabindex="-1" role="dialog" aria-labelledby="ModalAlteracao" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="ModalAlteracao">Alterar  Senha:</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+            <form id="formAlterarRecolhimento" name="formAlterarRecolhimento" action="/Recolhimento/novasenha" method="POST">
+              <div class="modal-body">
+              
+                  <div class="row">
+                    <div class="input-field col s12">
+                      <input type="hidden" name="idRecolhimentoAlterar" id="idRecolhimentoAlterar" value="">
+                      <!-- <i class="material-icons prefix">account_circle</i> -->
+                      <h3 id="recolhimentoAlterar" style="font-style: oblique;"></h3>
+                      <label class="active" for="recolhimento">Usuário</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="input-field col s12">
+                      <i class="material-icons prefix">vpn_key</i>
+                      <input  id="novasenha" name="novasenha" type="password" class="validate">
+                      <label class="active" for="senha">Senha</label>
+                    </div>
+                  </div>
+                  
+
+                  <div class="row"><span style="margin-right: 10px;">Editar: </span>
+                    <div class="switch">
+                      <label>
+                          Não
+                          <input id="edicalAlteracaoRecolhimento" type="checkbox">
+                          <span class="lever"></span>
+                          Sim
+                      </label>
+                  </div>
+
+              </div>
+            </form>
+            <div class="modal-footer">
+              <div class="row container">
+                  <div  class="col-6 center-align"> 
+                    <span id="divMsg" class="flow-text deep-orange-text text-darken-4"></span>
+                </div>
+                <div class="col-3">
+                
+                  <button type="button" name="segundo" id="segundo" data-dismiss="modal" class="close btn btn-secondary" >Sair</button>
+
+                </div>
+                <div  class="col-3">
+                  <button  onclick="alteracaoRecolhimento()" type='button' class="btn btn-primary">Gravar </button>
+                </div>
+
+              </div>
+              
+            
+              
+            </div>
+          
+        </div>
+      </div>
+    </div>
+</div>
+    <!--JavaScript at end of body for optimized loading-->
+    <script type="text/javascript" src="/js/materialize.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.slim.min.js"  ></script>
+    <script type="text/javascript" src="/js/popper.min.js"  ></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js" ></script>
+    <script type="text/javascript" src="/js/axios.js"></script>
+    <script type="text/javascript" src="/js/LD/controleLaudoLD.js"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script>
+        $(document).ready(function() {
+          M.updateTextFields();
+        });
+    </script>
+  </body>
+</html>
