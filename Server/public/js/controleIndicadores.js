@@ -14,7 +14,7 @@ async function buscarIndicadores(busca){
     }
     console.log('busca?depois> ', busca)
     
-        dados = await axios.get(`http://localhost:5412/indicadoresapi/${busca}`)
+        dados = await axios.get(`http://${host}/indicadoresapi/${busca}`)
         .then(response => {
            
             return response.data
@@ -95,7 +95,7 @@ gravar.addEventListener('click',async(event)=>{
     if(usuario != '' && usuario != undefined ){
         if(senha != '' && senha != undefined ){
                 //document.getElementById('formUsuario').submit()
-                retorno = await axios.post(`http://localhost:5412/indicadores/incluir`,{usuario,senha,edicao})
+                retorno = await axios.post(`http://${host}/indicadores/incluir`,{usuario,senha,edicao})
                 console.log('retorno: ', retorno.data)
                 if(retorno.data!='Duplicado'){
                     M.toast({html: `<span class='blue red-4' >Registro ${retorno.data[0]} incluído com sucesso</span>`, classes: 'rounded'});
@@ -122,7 +122,7 @@ function limparFormulario(){
 }
 
 async function deletarUsuario(id){
-    let retorno = await axios.delete(`http://localhost:5412/indicadores/delete/${id}`)
+    let retorno = await axios.delete(`http://${host}/indicadores/delete/${id}`)
     .then(response => response.data)
     .catch((error) => {
       throw error.response.data
@@ -149,7 +149,7 @@ async function alterarUsuario(id){
     console.log('id: ', id)
     console.log('edicao: ', edicao)
     console.log('alteração Indicadores: ', indicadores)
-     let retorno = await axios.post(`http://localhost:5412/indicadores/alterar`, indicadores)
+     let retorno = await axios.post(`http://${host}/indicadores/alterar`, indicadores)
      .then(response => response.data)
     .catch((error) => {
       throw error.response.data
@@ -179,7 +179,7 @@ async function listarUW(id){
         corpoTabela.removeChild(corpoTabela.children[0])
     }
 
-    const retorno = await axios.get(`http://localhost:5412/uw/${id}`)
+    const retorno = await axios.get(`http://${host}/uw/${id}`)
     .then(response => response.data)
     .catch( (error)=> {
         throw error.response.data
@@ -274,7 +274,7 @@ async function alterarUW(id, op){
 
     console.log('id: ', id)
     console.log('wbi: ', uwbi)
-     let retorno = await axios.put(`http://localhost:5412/uw/alterar`, uwbi)
+     let retorno = await axios.put(`http://${host}/uw/alterar`, uwbi)
      .then(response => response.data)
      .catch((error) => {
       throw error.response.data
@@ -301,4 +301,11 @@ function sairPainelUW(){
     tabelaUW.style.display = 'none'
 }
 
+function limpardadosCep(){
+    let tbody = document.getElementById('corpoTabela')
+    while (tbody.childElementCount >0) {
+        tbody.removeChild(tbody.children[0])
+    }
+    //document.getElementById('tabelaUsuarios').style.display = 'none'
+}
 

@@ -102,7 +102,7 @@ const update = async(id, dados) => {
 }
 
 const deletar = async(id) =>{
-    if(id >5){
+    if(id >6){
         try {
         return await knex('status')
                         .where({ id })

@@ -28,6 +28,19 @@ const findById = async(id) =>{
       
    
 }
+const findSQLById = async(id) =>{
+    try {
+           const registro = knex('indicadores')
+                            .where('id', id)
+                            .select('dados')
+                            .first()     
+            return registro
+    } catch (error) {
+        return error
+    }
+      
+   
+}
 
 // Irá verificar se o usuario existe através da id do usuario ou do nome do usuário. 
 // Caso digite um valor que seja inteiro a pesquisa será por id utilizando a função findByUsuario senão a pesquisa será por nome de ususario . 
@@ -141,4 +154,4 @@ const acessar = async(usuario, senha) => {
        }))
     //senhahasheada = (encodepassword, senha) => bcrypt.compareSync(senha, encodePassword)
 }
-module.exports = { findAll, findById, create, deletar, update, findByUsuario, acessar, verificarIndicador}
+module.exports = { findSQLById, findAll, findById, create, deletar, update, findByUsuario, acessar, verificarIndicador}

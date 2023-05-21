@@ -175,16 +175,17 @@ const verificarStatus = async(inf) => {
 }
 
 const SaidaItem = async(cod_analitico, quantidade)=>{
-    const status = 5
+    let status = 5
     if(quantidade != 0){
         status = 3
     }
-    console.debug(cod_analitico, quantidade, status)
+    console.debug('debuguando no controller saidaItem: ',cod_analitico, quantidade, status)
     try {
         return await knex('item_recolhido_ld')
                 .where({ 'cod_analitico':cod_analitico, 'status': 3 })
                 .update({quantidade, status})
     } catch (error) {
+        console.log('Erro na saída Item: ', error)
         return error
     }
 }

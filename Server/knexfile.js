@@ -6,7 +6,7 @@ module.exports = {
 
     client: 'sqlite3',
     connection: {
-      filename: path.resolve(__dirname, 'database', 'sam_db.sqlite3')
+      filename: path.resolve(__dirname, 'database', 'indicadores.sqlite3')
     },
     migrations:{
       directory: path.resolve(__dirname, 'database', 'migrations')

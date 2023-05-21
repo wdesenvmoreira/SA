@@ -4,7 +4,7 @@ const rotasWBI = require('./rotasWBI')
 const rotasAuth = require('./routerAuth')
 const rotasLogout = require('./rotasLogout')
 const rotasPrincipal = require('./rotasPrincipal')
-const rotasAPI = require('./rotasAPI')
+const rotasAPI = require('./rotasAPI/')
 const rotasIndicadores = require('./rotasIndicadores')
 const rotasAPIIndicadores = require('./rotasAPIIndicadores')
 const config = require('../config/config.json')
@@ -14,7 +14,12 @@ const rotasLD= require('./rotasLD/')
 const rotasItemRecolhimentoLD = require('./rotasLD/rotasItemRecolhimentoLD')
 const rotasItemSaldoLD = require('./rotasLD/rotasItemSaldoLD')
 const rotasStatusLD= require('./rotasLD/rotasStatus')
+const rotasLaudoLD = require('./rotasLD/rotasLaudoLD')
 
+const rotasLS = require('./rotasLeito_Saldo')
+
+
+const rotaProcessos = require('./rotasProcessos/')
 
 const jwt = require('jsonwebtoken');
 //const jwtSecret = 'secreta'
@@ -22,13 +27,13 @@ const jwtSecret = require('../config/config.json').secret
 
 
 const rotas = (app) =>{
-    
+    rotasAPI(app)
     app.get('/', (req, res)=>{
         res.render('login', {message:''})
     }) 
     rotasLogout(app)
-    rotasAPI(app)
-    rotasAPIAuth(app)
+    
+  //  rotasAPIAuth(app)
     
     rotasAuth(app)
 
@@ -44,6 +49,11 @@ const rotas = (app) =>{
    rotasItemRecolhimentoLD(app)
    rotasItemSaldoLD(app)
    rotasStatusLD(app)
+   rotasLaudoLD(app)
+   
+   rotasLS(app)
+
+   rotaProcessos(app)
 
 }
 

@@ -37,7 +37,7 @@ const rotasAuth = (app) => {
                                 }
                                 await jwt.sign(payload, jwtSecret, (err, token)=>{
                                     req.session.token = token;
-                                    res.json(token);
+                                    res.json({'acesso':true,'token':token});
                                 })
                                 
                             }else

@@ -7,7 +7,7 @@ exports.up = async function (knex) {
                 table.increments('id').primary()
                 table.string('usuario').notNullable();
                 table.string('senha').notNullable();   
-                table.boolean('edicao').notNullable();    
+                table.boolean('edicao').notNullable();  
             })
             
 }
