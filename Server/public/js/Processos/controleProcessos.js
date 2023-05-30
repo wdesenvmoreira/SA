@@ -46,7 +46,7 @@ async function preencherTabelaPessoaCEP(dados){
 
         let statusCep = 'Inválido'
 
-        if(cepvalido[0].cep){
+        if(cepvalido.cep){
             statusCep = 'Válido'
         }else{
             statusCep = 'Inválido'
@@ -57,7 +57,7 @@ async function preencherTabelaPessoaCEP(dados){
             return data
         } 
 
-        if(cepvalido[0].cep){
+        if(!cepvalido.cep){
         const tr = document.createElement(`tr`)
         tr.setAttribute('pessoa',cep.PESSOA)
         tr.innerHTML = `<td>${cep.PESSOA}</td>
@@ -107,6 +107,7 @@ async function validarCEP(cep) {
         return false            
     })
     console.log('dados:', dados)
+    return dados
 }
 
 let carga = document.getElementById('cargaCEP')
