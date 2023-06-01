@@ -33,10 +33,7 @@ async function consultaPessoaCEP(){
 async function preencherTabelaPessoaCEP(dados){
     const tabelaPessoaCEP = document.getElementById('tabelaPessoaCEP')
     const corpoTabela = document.getElementById('corpoTabela')
-   // let dados = await buscarUsuarios(busca)
-   // console.log('dados na tabela: ',dados);
-    //sairPainelUW()
-
+    limpartabela('corpoTabela')
    await dados.forEach(async (cep) => {
        
        
@@ -83,19 +80,7 @@ async function validarCEP(cep) {
             'content-type': 'application/json;charset=utf-8',
         }
     }
-    // try {
-     
-    //    // const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
-    //     const targetUrl = `https://viacep.com.br/ws/${cep}/json/`;
-    //     //const response = await fetch(proxyUrl + targetUrl);
-    //     const response = await fetch(targetUrl, options);
-    //     const data = await response.json();
-    //     console.log('dadosCep: ', data);
-    //     return [data];
-    // } catch (error) {
-    //     console.log('Erro verificação do cep: ',error);
-    //     return true;
-    // }
+ 
 
     dados = await axios.get(`https://viacep.com.br/ws/${cep}/json/`)
     .then(response => {
@@ -122,3 +107,48 @@ carga.addEventListener('change',(event)=>{
         document.getElementById('grupoP').style.display = 'block'
     }
 })
+
+function limpartabela(nomeTabela){
+    let tbody = document.getElementById(nomeTabela)
+    while (tbody.childElementCount >0) {
+        tbody.removeChild(tbody.children[0])
+    }
+   
+}
+
+
+// ChatGPt
+// Define a função que ordena a tabela
+function ordenarTabelaPorColuna() {
+    // Seleciona o cabeçalho da tabela
+    const tableHeader = document.querySelector('#cabecalhotb');
+  
+    // Adiciona um evento de clique para cada coluna
+    tableHeader.querySelectorAll('th').forEach((headerCell) => {
+      headerCell.addEventListener('click', () => {
+        const tableRows = Array.from(document.querySelectorAll('#corpoTabela tr'));
+  
+        // Obtém o índice da coluna clicada
+        const headerIndex = Array.from(headerCell.parentNode.children).indexOf(headerCell);
+  
+        // Classifica os dados na tabela com base na coluna clicada
+        const isAscending = headerCell.classList.contains('ascending');
+        tableRows.sort((a, b) => {
+          const aColText = a.querySelector(`td:nth-child(${headerIndex + 1})`).textContent.trim();
+          const bColText = b.querySelector(`td:nth-child(${headerIndex + 1})`).textContent.trim();
+          return aColText.localeCompare(bColText, undefined, { numeric: true });
+        });
+        if (!isAscending) {
+          tableRows.reverse();
+          headerCell.classList.add('ascending');
+        } else {
+          headerCell.classList.remove('ascending');
+        }
+  
+        // Atualiza a tabela com os dados classificados
+        tableRows.forEach((row) => {
+          document.querySelector('#corpoTabela').appendChild(row);
+        });
+      });
+    });
+  }

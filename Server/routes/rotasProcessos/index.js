@@ -37,28 +37,6 @@ const rotaProcessos = (app) =>{
         let ceps = await controllerProcessos.consultaBanco(req.params.pessoa,req.params.carga, req.params.grupoP)
 
         console.log('retorno da busca: ', ceps)
-        // await ceps.forEach(async (cep) => {
-        //     console.log('dentro da rota. cep.cep:', cep.cep)
-        //     try {
-             
-        //         // const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
-        //          const targetUrl = `https://viacep.com.br/ws/${cep}/json/`;
-        //          //const response = await fetch(proxyUrl + targetUrl);
-        //          const response = await fetch(targetUrl);
-        //          const data = await response.json();
-        //          console.log('dadosCep: ', data);
-        //          ceps.d = data;
-        //      } catch (error) {
-        //          console.log('Erro verificação do cep: ',error);
-        //          return true;
-        //      }
-        // })
-       
-       
-        
-        // console.log('ceps após verificação no viacep: ', ceps)
-
-
 
         res.json(ceps)
     }) 
