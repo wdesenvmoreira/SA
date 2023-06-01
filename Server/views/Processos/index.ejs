@@ -106,32 +106,38 @@
                   
                   </div>
 
-      
+      <!-- Rodapé do formulario de Validação de CEP. Este formulário  -->
+        <!-- Este formulário verifica através do código da carga se selecionado a caixa carga, verifica atrás do código da pessoa, porém depende da condição do tipo de pessoa
+        na parte de inferior do formulario.
+        * Caso a seleção de Carga não seja acionada, e o campo Pessoa esteja vazio o sistema irá buscar todas as pessoas do tipo selecionado abaixo.
+        * Só é mostrado em tela os CEPs que não foram validados pela api do correio. 
+        * api viacep -->
             <div class="modal-footer">
               <div class="row container">
     
                 <div class="col-6 container">
-                    <!-- <button id="btVerificar" type='button' class="btn btn-primary" onclick="consultaPessoaCEP()" >Verificar </button> -->
                     <a class="btn- btn-large waves-effect waves-light" onclick="consultaPessoaCEP()"  data-toggle="modal" data-target="#modalVisualizarPessoaCEP">Verificar</a>
-  
-                  </div>
+                </div>
+
                 <div class="col-6 container">
                   <a  data-dismiss="modal" class="Close btn- btn-large waves-effect waves-light">Sair</a>
-                  
                 </div>
                
 
               </div>
-              
-            
-              
+ 
             </div>
           
         </div>
       </div>
     </div>
   </div>
+
    <!-- Formulario Visualização Pessoa CEP-->
+    <!-- * Após soliciado a validação do cep pelo código da carga ou pelo código da pessoa por tipo. O sistema irá disponibilizar neste formulário o código da pessoa, o tipo
+    o tipo do endereço e o status dele em relação a API dos correios viacep. 
+    * Somente será mostrados os que estão na condição invalidado, o que mostra que há necessidade de alteração do cep.  -->
+
    <div class="modal fade painelForm" id="modalVisualizarPessoaCEP" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -178,6 +184,9 @@
     </div>
 
         
+
+
+    
           <div class="modal-footer">
             <div class="row container">
                 <div  class="col-6 center-align"> 
