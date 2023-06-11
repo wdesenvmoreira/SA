@@ -16,6 +16,8 @@ const rotasItemSaldoLD = require('./rotasLD/rotasItemSaldoLD')
 const rotasStatusLD= require('./rotasLD/rotasStatus')
 const rotasLaudoLD = require('./rotasLD/rotasLaudoLD')
 
+const rotasDPRH = require('./rotasDPRH/')
+
 const rotasLS = require('./rotasLeito_Saldo')
 
 
@@ -54,6 +56,7 @@ const rotas = (app) =>{
    rotasLS(app)
 
    rotaProcessos(app)
+   rotasDPRH(app)
 
 
 }

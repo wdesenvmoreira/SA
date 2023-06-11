@@ -9,6 +9,8 @@ const passport = require('passport')
 var cookieParser = require('cookie-parser');
 let config = require('./config/config.json')
 
+const slackbot = require('./controller/appSlack/controllerAppSlack')
+
 const app = express()
 
 const port = 5412

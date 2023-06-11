@@ -152,3 +152,11 @@ function ordenarTabelaPorColuna() {
       });
     });
   }
+
+  function aguarde(valor) {
+    if (valor === 0) {
+      document.getElementById("aguardando").style.display = "none";
+    } else if (valor === 1) {
+      document.getElementById("aguardando").style.display = "block";
+    }
+  }
