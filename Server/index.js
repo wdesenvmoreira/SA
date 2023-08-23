@@ -60,7 +60,7 @@ app.use(passport.initialize())
 app.use(passport.session())
 app.use(flash())
 
-rotas(app);
+rotas(app);  
 
 app.listen(port, () => {
     console.log(`Iniciado servidor na porta: ${port} appserver`);
